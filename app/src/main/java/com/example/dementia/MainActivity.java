@@ -4,9 +4,12 @@ import android.Manifest;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import android.app.AlarmManager;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Build;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.*;
 import android.content.*;
@@ -27,24 +30,40 @@ public class MainActivity extends AppCompatActivity {
         convertPage();
     }
 
-    public void permissionCheck(){
+    public void permissionCheck() {
+        // Android 13 미만: 외부 저장소 권한 확인
         if (Build.VERSION.SDK_INT <= 32) {
             int permissionRead = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
             if (permissionRead == PackageManager.PERMISSION_GRANTED) {
-                // 권한이 허가됨
-                //Toast.makeText(this, "저장소 접근 권한이 허가되었습니다.", Toast.LENGTH_SHORT).show();
+                // 저장소 접근 권한이 허가됨
+                // Toast.makeText(this, "저장소 접근 권한이 허가되었습니다.", Toast.LENGTH_SHORT).show();
             } else {
-                // 권한 요청
+                // 저장소 접근 권한 요청
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
             }
-        } else if (Build.VERSION.SDK_INT >= 33) {
+        }
+        // Android 13 이상: 미디어 이미지 권한 확인
+        else if (Build.VERSION.SDK_INT >= 33) {
             int permissionReadMediaImages = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES);
             if (permissionReadMediaImages == PackageManager.PERMISSION_GRANTED) {
-                // 권한이 허가됨
-                //Toast.makeText(this, "미디어 이미지 접근 권한이 허가되었습니다.", Toast.LENGTH_SHORT).show();
+                // 미디어 이미지 접근 권한이 허가됨
+                // Toast.makeText(this, "미디어 이미지 접근 권한이 허가되었습니다.", Toast.LENGTH_SHORT).show();
             } else {
-                // 권한 요청
+                // 미디어 이미지 접근 권한 요청
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, REQUEST_PERMISSION);
+            }
+        }
+
+        // 정확한 알람 설정 권한 확인 및 요청 (Android 12 이상)
+        if (Build.VERSION.SDK_INT >= 31) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            if (!alarmManager.canScheduleExactAlarms()) {
+                // 사용자에게 설정 화면으로 안내
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent);
+            } else {
+                // 정확한 알람 설정 권한이 허가됨
+                // Toast.makeText(this, "정확한 알람 권한이 허가되었습니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }
