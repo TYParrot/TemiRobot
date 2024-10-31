@@ -7,7 +7,9 @@ import androidx.core.content.ContextCompat;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Build;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.*;
+import android.content.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,8 +20,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 권한 체크 호출
+        // 권한 체크 호출, 어플 시작되고 나서 가장 먼저 확인해야하니까, 추가적인 기능은 이 아래에 작성해주세요.
         permissionCheck();
+
+        //버튼들의 화면 전환 메소드
+        convertPage();
     }
 
     public void permissionCheck(){
@@ -57,4 +62,43 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    /*
+    * 화면 전환 버튼의 클릭 이벤트 설정하여 페이지를 변경하는 메소드.
+    * onCreate에서 호출되고 있음.
+    * */
+    private void convertPage(){
+//        이미지 자동 버튼
+//        Button imageBtn = findViewById(R.id.imageBtn);
+//        imageBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent iamges = new Intent(MainActivity.this, "여기 생성한 이미지 자동 재생 페이지 클래스 넣으세요.");
+//                startActivity(images);
+//            }
+//        });
+
+        //알람 버튼
+        Button alarmBtn = findViewById(R.id.alarmBtn);
+        alarmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent alarmSet = new Intent(MainActivity.this, alarmSet.class);
+                startActivity(alarmSet);
+            }
+        });
+
+        //수면 버튼
+//        Button sleepBtn = findViewById(R.id.sleepBtn);
+//        sleepBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent sleep = new Intent(MainActivity.this, "여기 생성한 수면 페이지 클래스 넣으세요.");
+//                startActivity(sleep);
+//            }
+//        });
+    }
+
+
 }
