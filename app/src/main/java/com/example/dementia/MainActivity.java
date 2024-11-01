@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         alarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent alarmSet = new Intent(MainActivity.this, alarmSet.class);
-                startActivity(alarmSet);
+                Intent alarmList = new Intent(MainActivity.this, AlarmList.class);
+                startActivity(alarmList);
             }
         });
 

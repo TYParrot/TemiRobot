@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Dementia</string>
-    <string-array name = "ampm_array">
+    <string-array name="ampm_array">
         <item>오전</item>
         <item>오후</item>
     </string-array>
