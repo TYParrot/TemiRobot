@@ -6,34 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- 위쪽에서의 위치 조정 -->
+
     <Button
         android:id="@+id/imageBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="이미지 생성 버튼"
+        android:layout_marginTop="244dp"
+        android:text="이미지"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3"/> <!-- 위쪽에서의 위치 조정 -->
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/alarmBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="알람 생성 버튼"
+        android:text="알람"
         app:layout_constraintTop_toBottomOf="@+id/imageBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.5"/> <!-- 첫 번째 버튼 아래 위치 조정 -->
+        app:layout_constraintVertical_bias="0.5"/>
 
     <Button
         android:id="@+id/sleepBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="수면 버튼"
-        app:layout_constraintTop_toBottomOf="@+id/alarmBtn"
+        android:layout_marginTop="4dp"
+        android:text="수면"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.5"/> <!-- 두 번째 버튼 아래 위치 조정 -->
+        app:layout_constraintTop_toBottomOf="@+id/alarmBtn" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
