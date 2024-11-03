@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         permissionCheck();
 
         //매니저들 초기화
-        MainManager.getMain().init();
+        MainManager.getMain().initAlarmManager(this);
 
         //버튼들의 화면 전환 메소드
         convertPage();

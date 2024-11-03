@@ -1,5 +1,7 @@
 package com.example.dementia.Manager;
 
+import android.content.Context;
+
 //MainActivity에서 생성, 다른 매니저들을 관리함.
 public class MainManager {
 
@@ -7,6 +9,7 @@ public class MainManager {
 
     private AlarmManager alarm;
 
+    //인스턴스 생성시 실행됨.
     private MainManager(){
         alarm = new AlarmManager();
     }
@@ -19,8 +22,8 @@ public class MainManager {
     }
 
     //초기화
-    public void init(){
-        alarm.init();
+    public void initAlarmManager(Context context){
+        alarm.init(context);
     }
 
     //알람 매니저 반환, 관련 메소드 접근

@@ -1,18 +1,18 @@
 package com.example.dementia.UI;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.os.Bundle;
-import android.widget.Spinner;
-import com.example.dementia.Function.AlarmSet;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.example.dementia.Function.AlarmDataSave;
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.R;
 
@@ -21,12 +21,11 @@ import com.example.dementia.R;
 //AlarmSet 초기화 필요.
 public class AlarmSetUI extends AppCompatActivity {
 
-    private AlarmSet alarmSet;
-
+    private AlarmDataSave alarmSave;
+    private TimePicker timePicker;
+    private int hour;
+    private int minute;
     private ImageView pillImg;
-    private Spinner ampm;
-    private Spinner hour;
-    private Spinner minute;
     private Button[] dayBtns;
     //day 버튼 클릭 유무 저장 배열
     private boolean[] dayBtnsClicked;
@@ -34,16 +33,15 @@ public class AlarmSetUI extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_alarmset);
 
         //알람 기능 클래스 호출
-        alarmSet = MainManager.getMain().getAlarm().getAlarmSet();
+        alarmSave = MainManager.getMain().getAlarm().getAlarmDataSave();
+        alarmSave.initManager();
 
         //변수 초기화 호출
         varInit();
-
-        //Spinner 목록 불러오기
-        initSpinner();
 
         //버튼 이벤트 세팅
         eventSetting();
@@ -54,10 +52,9 @@ public class AlarmSetUI extends AppCompatActivity {
 
     //변수 초기화
     private void varInit(){
+
         pillImg = findViewById(R.id.pillImg);
-        ampm = findViewById(R.id.ampm);
-        hour = findViewById(R.id.hour);
-        minute = findViewById(R.id.minute);
+        timePicker = findViewById(R.id.timePicker);
 
         dayBtns = new Button[]{
                 findViewById(R.id.monBtn),
@@ -72,21 +69,6 @@ public class AlarmSetUI extends AppCompatActivity {
         dayBtnsClicked = new boolean[7];
     }
 
-    //Spinner 목록을 string.xml으로부터 불러와서 layout의 spinner에 할당함.
-    private void initSpinner(){
-        ArrayAdapter<CharSequence> ampmAdapter = ArrayAdapter.createFromResource(this, R.array.ampm_array, android.R.layout.simple_spinner_item);
-        ampmAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ampm.setAdapter(ampmAdapter);
-
-        ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(this, R.array.hour_array, android.R.layout.simple_spinner_item);
-        hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        hour.setAdapter(hourAdapter);
-
-        ArrayAdapter<CharSequence> minuteAdapter = ArrayAdapter.createFromResource(this, R.array.minutes_array, android.R.layout.simple_spinner_item);
-        minuteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        minute.setAdapter(minuteAdapter);
-    }
-
     //페이지 전환 전에 필요한 release나 저장 메소드 호출을 함께 관리한다.
     private void convertPage(){
         Button cancel = findViewById(R.id.cancelAlarmBtn);
@@ -94,9 +76,9 @@ public class AlarmSetUI extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //AlarmSet 참조 해제
-                if(alarmSet != null){
-                    alarmSet.release();
-                    alarmSet = null;
+                if(alarmSave != null){
+                    alarmSave.release();
+                    alarmSave = null;
                 }
                 
                 Intent setToListBack = new Intent(AlarmSetUI.this, AlarmListUI.class);
@@ -110,17 +92,31 @@ public class AlarmSetUI extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                alarmSet.save();
-
-                if(alarmSet != null){
-                    alarmSet.release();;
-                    alarmSet = null;
+                int dayCount = 0;
+                for(int i = 0; i<dayBtnsClicked.length; i++){
+                    if(dayBtnsClicked[i]){
+                        dayCount++;
+                    }
                 }
 
-                Intent setToListBack = new Intent(AlarmSetUI.this, AlarmListUI.class);
-                finish();
-                AlarmSetUI.super.onBackPressed();
+                if(dayCount != 0){
+                    hour = timePicker.getHour();
+                    minute = timePicker.getMinute();
+
+                    alarmSave.saveData(hour, minute, dayBtnsClicked);
+                    Toast.makeText(AlarmSetUI.this, "알람이 저장되었습니다.", Toast.LENGTH_SHORT).show();
+
+                    if(alarmSave != null){
+                        alarmSave.release();
+                    }
+
+                    Intent setToListBack = new Intent(AlarmSetUI.this, AlarmListUI.class);
+                    finish();
+                }else{
+                    Toast.makeText(AlarmSetUI.this, "요일을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                }
             }
+
         });
     }
 
