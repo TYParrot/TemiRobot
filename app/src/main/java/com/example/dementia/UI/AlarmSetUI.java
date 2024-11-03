@@ -28,6 +28,8 @@ public class AlarmSetUI extends AppCompatActivity {
     private Spinner hour;
     private Spinner minute;
     private Button[] dayBtns;
+    //day 버튼 클릭 유무 저장 배열
+    private boolean[] dayBtnsClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,8 @@ public class AlarmSetUI extends AppCompatActivity {
         //Spinner 목록 불러오기
         initSpinner();
 
-        //데이터 세팅
-        dataSetting();
+        //버튼 이벤트 세팅
+        eventSetting();
 
         //페이지 전환 호출
         convertPage();
@@ -66,6 +68,8 @@ public class AlarmSetUI extends AppCompatActivity {
                 findViewById(R.id.satBtn),
                 findViewById(R.id.sunBtn)
         };
+
+        dayBtnsClicked = new boolean[7];
     }
 
     //Spinner 목록을 string.xml으로부터 불러와서 layout의 spinner에 할당함.
@@ -124,16 +128,37 @@ public class AlarmSetUI extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
     //데이터를 세팅하는 버튼들 리스너
-    private void dataSetting(){
+    private void eventSetting(){
+        //이미지 로드 이벤트
         pillImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openGallery();
             }
         });
+
+        //요일 버튼 이벤트
+        for(int i = 0; i<dayBtns.length; i++){
+            final int index = i;
+            dayBtns[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //현재 상태 반전
+                    dayBtnsClicked[index] = !dayBtnsClicked[index];
+
+                    //컬러 반전. colors.xml에서 색상 정보 변경
+                    if(dayBtnsClicked[index]){
+                        dayBtns[index].setBackgroundColor(getResources().getColor(R.color.alarmBtnClickedColor));
+                    }else{
+                        dayBtns[index].setBackgroundColor(getResources().getColor(R.color.white));
+                    }
+                }
+            });
+        }
     }
 
     //이미지 선택 및 로드
+    //아래 부분에서 뜨는 경고 오류 메세지 무시할 것.
     private void openGallery(){
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 ;
@@ -147,7 +172,6 @@ public class AlarmSetUI extends AppCompatActivity {
             pillImg.setImageURI(imgUri);
         }
     }
-
 
     
 }
