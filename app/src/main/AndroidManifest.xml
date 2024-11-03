@@ -18,8 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dementia">
-        <activity android:name=".AlarmSet" />
-        <activity android:name=".AlarmList"/>
+        <activity android:name=".UI.AlarmSetUI" />
+        <activity android:name=".UI.AlarmListUI"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

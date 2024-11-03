@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.*;
 import android.content.*;
 
+import com.example.dementia.Manager.MainManager;
+import com.example.dementia.UI.AlarmListUI;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_PERMISSION = 1;
@@ -26,10 +29,16 @@ public class MainActivity extends AppCompatActivity {
         // 권한 체크 호출, 어플 시작되고 나서 가장 먼저 확인해야하니까, 추가적인 기능은 이 아래에 작성해주세요.
         permissionCheck();
 
+        //매니저들 초기화
+        MainManager.getMain().init();
+
         //버튼들의 화면 전환 메소드
         convertPage();
     }
 
+
+
+    //권한 확인
     public void permissionCheck() {
         // Android 13 미만: 외부 저장소 권한 확인
         if (Build.VERSION.SDK_INT <= 32) {
@@ -103,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         alarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent alarmList = new Intent(MainActivity.this, AlarmList.class);
+                Intent alarmList = new Intent(MainActivity.this, AlarmListUI.class);
                 startActivity(alarmList);
             }
         });

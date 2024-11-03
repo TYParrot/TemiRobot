@@ -1,4 +1,4 @@
-package com.example.dementia;
+package com.example.dementia.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +7,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dementia.MainActivity;
+import com.example.dementia.R;
+
 //생성된 알람 목록 확인
 //알람 기능 확장에 따라서 받아오는 값이 있어야 함.
-public class AlarmList extends AppCompatActivity {
+public class AlarmListUI extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,7 @@ public class AlarmList extends AppCompatActivity {
         alarmAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent alarmSet = new Intent(AlarmList.this, AlarmSet.class);
+                Intent alarmSet = new Intent(AlarmListUI.this, AlarmSetUI.class);
                 startActivity(alarmSet);
             }
         });
@@ -45,9 +48,9 @@ public class AlarmList extends AppCompatActivity {
         listToMain.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent alarmListBack = new Intent(AlarmList.this, MainActivity.class);
+                Intent alarmListBack = new Intent(AlarmListUI.this, MainActivity.class);
                 finish();
-                AlarmList.super.onBackPressed();
+                AlarmListUI.super.onBackPressed();
             }
         });
     }

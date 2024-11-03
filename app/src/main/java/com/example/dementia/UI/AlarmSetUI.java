@@ -1,17 +1,27 @@
-package com.example.dementia;
+package com.example.dementia.UI;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.os.Bundle;
 import android.widget.Spinner;
+import com.example.dementia.Function.AlarmSet;
+import com.example.dementia.Manager.MainManager;
+import com.example.dementia.R;
 
-//알람 생성 페이지에서 알람을 성정
-public class AlarmSet extends AppCompatActivity {
+//알람 생성 페이지에서 알람을 설정
+//데이터는 AlarmSet으로 넘길 예정
+//AlarmSet 초기화 필요.
+public class AlarmSetUI extends AppCompatActivity {
+
+    private AlarmSet alarmSet;
 
     private ImageView pillImg;
     private Spinner ampm;
@@ -19,18 +29,22 @@ public class AlarmSet extends AppCompatActivity {
     private Spinner minute;
     private Button[] dayBtns;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarmset);
+
+        //알람 기능 클래스 호출
+        alarmSet = MainManager.getMain().getAlarm().getAlarmSet();
 
         //변수 초기화 호출
         varInit();
 
         //Spinner 목록 불러오기
         initSpinner();
+
+        //데이터 세팅
+        dataSetting();
 
         //페이지 전환 호출
         convertPage();
@@ -69,15 +83,71 @@ public class AlarmSet extends AppCompatActivity {
         minute.setAdapter(minuteAdapter);
     }
 
+    //페이지 전환 전에 필요한 release나 저장 메소드 호출을 함께 관리한다.
     private void convertPage(){
         Button cancel = findViewById(R.id.cancelAlarmBtn);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent setToListBack = new Intent(AlarmSet.this, AlarmList.class);
+                //AlarmSet 참조 해제
+                if(alarmSet != null){
+                    alarmSet.release();
+                    alarmSet = null;
+                }
+                
+                Intent setToListBack = new Intent(AlarmSetUI.this, AlarmListUI.class);
                 finish();
-                AlarmSet.super.onBackPressed();
+                AlarmSetUI.super.onBackPressed();
+            }
+        });
+
+        Button save = findViewById(R.id.saveAlarmBtn);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                alarmSet.save();
+
+                if(alarmSet != null){
+                    alarmSet.release();;
+                    alarmSet = null;
+                }
+
+                Intent setToListBack = new Intent(AlarmSetUI.this, AlarmListUI.class);
+                finish();
+                AlarmSetUI.super.onBackPressed();
             }
         });
     }
+
+    //이미지 선택 요청 코드
+    private static final int PICK_IMAGE = 1;
+
+    //데이터를 세팅하는 버튼들 리스너
+    private void dataSetting(){
+        pillImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGallery();
+            }
+        });
+    }
+
+    //이미지 선택 및 로드
+    private void openGallery(){
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                ;
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null){
+            Uri imgUri = data.getData();
+            pillImg.setImageURI(imgUri);
+        }
+    }
+
+
+    
 }

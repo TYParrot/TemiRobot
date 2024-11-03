@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AlarmSet">
+    tools:context=".UI.AlarmSetUI">
 
     <LinearLayout
         android:id="@+id/alarmSetMainLayout"
