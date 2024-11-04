@@ -1,5 +1,16 @@
 package com.example.dementia.Function;
 
-//백그라운드에서 알람을 실행
-public class AlarmService {
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+
+import androidx.annotation.Nullable;
+
+public class AlarmService extends Service {
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 }
