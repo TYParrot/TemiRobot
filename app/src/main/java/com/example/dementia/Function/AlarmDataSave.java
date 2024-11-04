@@ -30,7 +30,7 @@ public class AlarmDataSave{
     //알람 정보 저장 및 예약 요청
     public void saveData(int hour, int minute, boolean[] dayClicked){
 
-
+        //알람 정보를 저장하는 로직 구현 필요
 
         Alarm.makeAlarm(hour, minute, dayClicked);
         release();

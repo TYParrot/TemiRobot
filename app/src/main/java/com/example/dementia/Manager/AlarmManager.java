@@ -37,15 +37,27 @@ public class AlarmManager {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
+
+        boolean alarmSet = false;
+
         // 선택된 요일만 등록
         for (int i = 0; i < dayClicked.length; i++) {
             if (dayClicked[i]) {
-                int day = i + 1;
+                int day = i + 1; // Calendar.SUNDAY == 1
                 calendar.set(Calendar.DAY_OF_WEEK, day);
-                if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
-                    calendar.add(Calendar.WEEK_OF_YEAR, 1);
+
+                if (calendar.getTimeInMillis() >= System.currentTimeMillis()) {
+                    // 현재 시간보다 미래의 경우, 해당 시간에 알람 설정
+                    alarmSet = true;
+                    break;
                 }
             }
+        }
+
+        // 모든 요일을 검사했지만, 현재 시간보다 늦은 시간이 없을 경우 - 1분 뒤로 설정
+        if (!alarmSet) {
+            calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, 1);
         }
 
         Intent intent = new Intent(currentContext, AlarmReceive.class);
@@ -56,6 +68,5 @@ public class AlarmManager {
             systemAlarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
     }
-
 
 }
