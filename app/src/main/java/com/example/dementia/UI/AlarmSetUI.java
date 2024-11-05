@@ -12,16 +12,22 @@ import android.os.Bundle;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.dementia.Function.AlarmDataSave;
+import com.example.dementia.Function.AlarmDataReserve;
+import com.example.dementia.Function.AlarmListDataSet;
+import com.example.dementia.Manager.AlarmDataManager;
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.R;
 
 //알람 생성 페이지에서 알람을 설정
-//데이터는 AlarmSet으로 넘길 예정
-//AlarmSet 초기화 필요.
+//Save를 하면 AlarmListDataSet에 데이터를 저장도 해야함.
+
 public class AlarmSetUI extends AppCompatActivity {
 
-    private AlarmDataSave alarmSave;
+    private AlarmDataReserve alarmReserve;
+    private AlarmDataManager alarmDataManager;
+    //알림 고유 식별자
+    private int alarmID;
+    private Uri imgUri;
     private TimePicker timePicker;
     private int hour;
     private int minute;
@@ -30,15 +36,19 @@ public class AlarmSetUI extends AppCompatActivity {
     //day 버튼 클릭 유무 저장 배열
     private boolean[] dayBtnsClicked;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_alarmset);
 
-        //알람 기능 클래스 호출
-        alarmSave = MainManager.getMain().getAlarm().getAlarmDataSave();
-        alarmSave.initManager();
+        //알람 예약 클래스 호출
+        alarmReserve = MainManager.getMain().getAlarm().getAlarmDataReserve();
+        alarmReserve.initManager();
+
+        //알람 정보 저장 클래스 호출
+        alarmDataManager = MainManager.getMain().getAlarm().getAlarmDataManager();
 
         //변수 초기화 호출
         varInit();
@@ -75,10 +85,10 @@ public class AlarmSetUI extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //AlarmSet 참조 해제
-                if(alarmSave != null){
-                    alarmSave.release();
-                    alarmSave = null;
+                //AlarmReserve 참조 해제
+                if(alarmReserve != null){
+                    alarmReserve.release();
+                    alarmReserve = null;
                 }
                 
                 Intent setToListBack = new Intent(AlarmSetUI.this, AlarmListUI.class);
@@ -103,11 +113,14 @@ public class AlarmSetUI extends AppCompatActivity {
                     hour = timePicker.getHour();
                     minute = timePicker.getMinute();
 
-                    alarmSave.saveData(hour, minute, dayBtnsClicked);
+                    alarmID = alarmReserve.reserveData(hour, minute, dayBtnsClicked);
                     Toast.makeText(AlarmSetUI.this, "알람이 저장되었습니다.", Toast.LENGTH_SHORT).show();
 
-                    if(alarmSave != null){
-                        alarmSave.release();
+                    //데이터 저장
+                    saveData();
+
+                    if(alarmReserve != null){
+                        alarmReserve.release();
                     }
 
                     Intent setToListBack = new Intent(AlarmSetUI.this, AlarmListUI.class);
@@ -118,6 +131,13 @@ public class AlarmSetUI extends AppCompatActivity {
             }
 
         });
+    }
+
+    //데이터를 AlarmListDataSet에 저장
+    private void saveData(){
+
+        alarmDataManager.saveData(alarmID, imgUri, dayBtnsClicked, hour, minute);
+
     }
 
     //이미지 선택 요청 코드
@@ -164,7 +184,7 @@ public class AlarmSetUI extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null){
-            Uri imgUri = data.getData();
+            imgUri = data.getData();
             pillImg.setImageURI(imgUri);
         }
     }

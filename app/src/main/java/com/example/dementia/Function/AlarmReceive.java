@@ -15,7 +15,6 @@ import androidx.core.app.NotificationCompat;
 import com.example.dementia.UI.AlarmNotificationUI;
 
 //정해진 시간에 알림 호출
-//해야하는 일: 생성되는 알림마다 고유의 알람 아이디를 갖도록 수정해줘야 함.
 public class AlarmReceive extends BroadcastReceiver {
 
     //오레오(안드로이드 8.0) 이상은 반드시 채널을 설정해줘야 Notification이 작동.

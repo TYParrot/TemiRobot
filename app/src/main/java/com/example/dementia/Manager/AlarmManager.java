@@ -4,18 +4,19 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.dementia.Function.AlarmList;
-import com.example.dementia.Function.AlarmDataSave;
+import com.example.dementia.Function.AlarmListDataSet;
+import com.example.dementia.Function.AlarmDataReserve;
 import com.example.dementia.Function.AlarmReceive;
 
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
 //실질적으로 알람을 예약하는 클래스.
+//알람 데이터 관리 클래스도 여기서 하나의 객체로 관리...
 //고유의 ID로 생성된 알림들이기 때문에, 재부팅할 때도 data를 하나씩 불러와서 불러오도록 해야함. 이는 다른 클래스에서 진행할 예정.
 public class AlarmManager {
 
-    private static AlarmList alarmList;
+    private static AlarmDataManager alarmDataManager;
     private android.app.AlarmManager systemAlarmManager; // 시스템 AlarmManager
     private Context currentContext;
 
@@ -27,11 +28,18 @@ public class AlarmManager {
     public void init(Context context) {
         currentContext = context;
         systemAlarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        //1개만.
+        alarmDataManager = new AlarmDataManager();
     }
 
     //release필요. 지역 변수이므로, AlarmSave에서 작성.
-    public AlarmDataSave getAlarmDataSave(){
-        return new AlarmDataSave();
+    public AlarmDataReserve getAlarmDataReserve(){
+        return new AlarmDataReserve();
+    }
+
+    public AlarmDataManager getAlarmDataManager(){
+        return alarmDataManager;
     }
 
     // 알람 예약
