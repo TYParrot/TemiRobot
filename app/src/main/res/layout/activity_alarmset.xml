@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AlarmSet">
+    tools:context=".UI.AlarmSetUI">
 
     <LinearLayout
         android:id="@+id/alarmSetMainLayout"
@@ -36,35 +36,13 @@
             app:layout_constraintTop_toBottomOf="@+id/pillImg"
             tools:layout_editor_absoluteX="10dp">
 
-            <Spinner
-                android:id="@+id/ampm"
-                android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_weight="1" />
+            <TimePicker
+                android:id = "@+id/timePicker"
+                android:layout_width = "match_parent"
+                android:layout_height = "match_parent"
+                android:theme = "@style/CustomTimePicker"
+                android:timePickerMode= "spinner"/>
 
-            <Spinner
-                android:id="@+id/hour"
-                android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/timeSeparator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="10dp"
-                android:text=":"
-                android:textSize="40sp"
-                android:textStyle="bold" />
-
-
-            <Spinner
-                android:id="@+id/minute"
-                android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
