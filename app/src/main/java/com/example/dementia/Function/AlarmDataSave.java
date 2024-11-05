@@ -15,6 +15,7 @@ import java.util.Calendar;
 public class AlarmDataSave{
 
     private static AlarmManager Alarm;
+    private int personalID;
 
     public void initManager(){
         this.Alarm = MainManager.getMain().getAlarm();
@@ -29,10 +30,14 @@ public class AlarmDataSave{
 
     //알람 정보 저장 및 예약 요청
     public void saveData(int hour, int minute, boolean[] dayClicked){
+        //고유의 알림id를 반환받아와야 함.
+        personalID = Alarm.makeAlarm(hour, minute, dayClicked);
 
-        //알람 정보를 저장하는 로직 구현 필요
+        //알람 정보를 저장하는 로직 구현 필요.
+        //배열의 첫번째에는 personalID로 확인.
+        //한줄로 저장하고 ,로 파싱?
+        System.out.println("알람데이터 저장"+personalID);
 
-        Alarm.makeAlarm(hour, minute, dayClicked);
         release();
     }
 

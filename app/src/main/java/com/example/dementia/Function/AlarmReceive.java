@@ -15,6 +15,7 @@ import androidx.core.app.NotificationCompat;
 import com.example.dementia.UI.AlarmNotificationUI;
 
 //정해진 시간에 알림 호출
+//해야하는 일: 생성되는 알림마다 고유의 알람 아이디를 갖도록 수정해줘야 함.
 public class AlarmReceive extends BroadcastReceiver {
 
     //오레오(안드로이드 8.0) 이상은 반드시 채널을 설정해줘야 Notification이 작동.
@@ -31,33 +32,37 @@ public class AlarmReceive extends BroadcastReceiver {
     //수신되는 Intent
     @Override
     public void onReceive(Context context, Intent intent) {
-        // 알람이 수신되었을 때 실행될 동작을 정의
         Toast.makeText(context, "알람이 울렸습니다.", Toast.LENGTH_SHORT).show();
+
+        // 알람을 save하는 과정에서 생긴 고유의 id를 받아옴.
+        int alarmID = intent.getIntExtra("alarm_id", -1);
+
+        //전달받은 고유의 id 확인용
+        System.out.println("AlarmReceive 받은 고유 아이디 : " + alarmID);
 
         createNotificationChannel(context);
 
+        // AlarmNotificationUI에 고유 ID 전달, alarm_id라는 이름으로.
         Intent alarmNotiUI = new Intent(context, AlarmNotificationUI.class);
+        alarmNotiUI.putExtra("alarm_id", alarmID); // 고유 ID 전달
         alarmNotiUI.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingNotiUI = PendingIntent.getActivity(context, 0, alarmNotiUI, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingNotiUI = PendingIntent.getActivity(context, alarmID, alarmNotiUI, PendingIntent.FLAG_CANCEL_CURRENT);
 
         // 알림 빌드
-        Notification notification = new Notification.Builder(context, CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle("적절한 복용 시간!")
                 .setContentText("지금 약을 섭취하면 가장 효과적이에요!")
-                //설정한 알약 이미지를 넣어주는 것으로 바꿔야 함.
                 .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
-                //알림을 탭하면 삭제하는 기능이 아닌, 어플로 돌아가 '복용 완료'버튼을 눌러야 끝나도록.
-                //.setAutoCancel(true)
                 .setContentIntent(pendingNotiUI)
                 .build();
 
-        // 알림 표시
+        // 고유 ID로 알림 표시
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if(notificationManager != null){
-            notificationManager.notify(1, notification);
+        if (notificationManager != null) {
+            notificationManager.notify(alarmID, notification); // 고유 ID로 알림 표시
         }
-
     }
+
 
     private void createNotificationChannel(Context context) {
         // 채널 설정 (Android 8.0 이상)

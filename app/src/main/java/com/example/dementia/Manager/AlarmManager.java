@@ -9,13 +9,18 @@ import com.example.dementia.Function.AlarmDataSave;
 import com.example.dementia.Function.AlarmReceive;
 
 import java.util.Calendar;
+import java.util.concurrent.atomic.AtomicInteger;
 
 //실질적으로 알람을 예약하는 클래스.
+//고유의 ID로 생성된 알림들이기 때문에, 재부팅할 때도 data를 하나씩 불러와서 불러오도록 해야함. 이는 다른 클래스에서 진행할 예정.
 public class AlarmManager {
 
     private static AlarmList alarmList;
     private android.app.AlarmManager systemAlarmManager; // 시스템 AlarmManager
     private Context currentContext;
+
+    //고유한 알림id 생성을 위한 AtomicInteger
+    private static final AtomicInteger uniqueID = new AtomicInteger(0);
 
     // init 메서드에서 시스템 AlarmManager 초기화
     //requestCode 확인 필요
@@ -30,7 +35,7 @@ public class AlarmManager {
     }
 
     //알람 예약
-    public void makeAlarm(int hour, int minute, boolean[] dayClicked) {
+    public int makeAlarm(int hour, int minute, boolean[] dayClicked) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
@@ -60,13 +65,22 @@ public class AlarmManager {
             calendar.add(Calendar.MINUTE, 1);
         }
 
+        //고유 알림 id 생성함. 호출할 때마다 다른 id를 생성.
+        int alarmID = uniqueID.incrementAndGet();
+
         Intent intent = new Intent(currentContext, AlarmReceive.class);
         intent.setAction("com.example.dementia.ACTION_ALARM_RECEIVE"); // Action 추가
+        intent.putExtra("alarm_id",alarmID);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (systemAlarmManager != null) {
             systemAlarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
+
+        System.out.println("알람 매니저"+alarmID);
+
+        //방금 예약한 알람에 대한 고유 아이디를 반환.
+        return alarmID;
     }
 
 }
