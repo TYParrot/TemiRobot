@@ -34,7 +34,7 @@ public class AlarmManager {
         return new AlarmDataSave();
     }
 
-    //알람 예약
+    // 알람 예약
     public int makeAlarm(int hour, int minute, boolean[] dayClicked) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
@@ -42,44 +42,50 @@ public class AlarmManager {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-
-        boolean alarmSet = false;
-
         // 선택된 요일만 등록
+        boolean alarmSet = false;
         for (int i = 0; i < dayClicked.length; i++) {
             if (dayClicked[i]) {
-                int day = i + 1; // Calendar.SUNDAY == 1
+                int day;
+
+                // 요일 설정: 일요일이 1, 토요일이 7
+                day = (i != 6) ? i + 2 : 1; // 일요일은 1로 설정
+
                 calendar.set(Calendar.DAY_OF_WEEK, day);
 
                 if (calendar.getTimeInMillis() >= System.currentTimeMillis()) {
-                    // 현재 시간보다 미래의 경우, 해당 시간에 알람 설정
                     alarmSet = true;
                     break;
                 }
             }
         }
 
-        // 모든 요일을 검사했지만, 현재 시간보다 늦은 시간이 없을 경우 - 1분 뒤로 설정
+        // 모든 요일을 지나친 경우, 다음 주의 첫 번째 요일로 설정
         if (!alarmSet) {
-            calendar = Calendar.getInstance();
-            calendar.add(Calendar.MINUTE, 1);
+            calendar.add(Calendar.WEEK_OF_YEAR, 1);
         }
 
-        //고유 알림 id 생성함. 호출할 때마다 다른 id를 생성.
+        // 고유 알림 ID 생성
         int alarmID = uniqueID.incrementAndGet();
 
         Intent intent = new Intent(currentContext, AlarmReceive.class);
-        intent.setAction("com.example.dementia.ACTION_ALARM_RECEIVE"); // Action 추가
-        intent.putExtra("alarm_id",alarmID);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.setAction("com.example.dementia.ACTION_ALARM_RECEIVE");
+        intent.putExtra("alarm_id", alarmID);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, alarmID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (systemAlarmManager != null) {
-            systemAlarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            // 매주 반복되는 요일별 알람 설정
+            systemAlarmManager.setRepeating(
+                    android.app.AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    android.app.AlarmManager.INTERVAL_DAY * 7,
+                    pendingIntent
+            );
         }
 
-        System.out.println("알람 매니저"+alarmID);
+        System.out.println("알람 매니저 " + alarmID);
 
-        //방금 예약한 알람에 대한 고유 아이디를 반환.
+        // 예약한 알람의 고유 ID 반환
         return alarmID;
     }
 

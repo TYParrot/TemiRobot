@@ -20,7 +20,6 @@ public class AlarmReceive extends BroadcastReceiver {
 
     //오레오(안드로이드 8.0) 이상은 반드시 채널을 설정해줘야 Notification이 작동.
     private static final String CHANNEL_ID = "alarm_channel_id";
-    private static final String CHAANEL_NAME = "Channel1";
 
     /*NotificationCompat.Builder.build()의 결과를 전달한다.
             setContentTitle() : 알림 제목을 설정한다.
@@ -46,7 +45,8 @@ public class AlarmReceive extends BroadcastReceiver {
         Intent alarmNotiUI = new Intent(context, AlarmNotificationUI.class);
         alarmNotiUI.putExtra("alarm_id", alarmID); // 고유 ID 전달
         alarmNotiUI.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingNotiUI = PendingIntent.getActivity(context, alarmID, alarmNotiUI, PendingIntent.FLAG_CANCEL_CURRENT);
+        //중첩이 되도록 하려면 FLAG_IMMUTABLE, CURRENT_UPDATE는 최근거...
+        PendingIntent pendingNotiUI = PendingIntent.getActivity(context, alarmID, alarmNotiUI,  PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // 알림 빌드
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
