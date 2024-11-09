@@ -31,7 +31,8 @@ public class AlarmDataManager {
 
     // 모든 알람 조회 메소드
     public ArrayList<AlarmListDataSet> getAllAlarms() {
-        return alarmList; // 모든 알람 데이터 반환
+        return alarmList;
     }
+
 }
 

@@ -38,6 +38,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    //json포맷
+    implementation 'com.google.code.gson:gson:2.8.6'
+
     //TEMI와 연결했을 때 아래의 코드 주석 처리를 해제하세요.
     //implementation 'com.robotemi:sdk:1.131.4'
 

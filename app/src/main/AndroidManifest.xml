@@ -28,7 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dementia">
-        <activity android:name=".UI.AlarmNotificationUI"></activity>
+        <activity android:name=".UI.AlarmNotificationUI" />
         <activity android:name=".UI.AlarmSetUI" />
         <activity android:name=".UI.AlarmListUI" />
         <activity
@@ -39,16 +39,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- 알림을 받기 위한 receiver등록 -->
-        <receiver android:name=".Function.AlarmReceive"
+        </activity> <!-- 알림을 받기 위한 receiver등록 -->
+        <receiver
+            android:name=".Function.AlarmReceive"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.example.dementia.ACTION_ALARM_RECEIVE" />
             </intent-filter>
         </receiver>
-
 
         <service
             android:name=".Function.AlarmService"

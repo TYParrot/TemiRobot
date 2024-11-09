@@ -13,7 +13,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.dementia.Function.AlarmDataReserve;
-import com.example.dementia.Function.AlarmListDataSet;
 import com.example.dementia.Manager.AlarmDataManager;
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.R;

@@ -12,18 +12,34 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+//{"name":"Lisa", "age":23}
 public class AlarmListDataSet {
     private int alarmID;
     private Uri pillImgUri;
-    private boolean[] selectedDays = new boolean[7];
+    //SharedPreferences는 배열 없음.
+    private static String selectedDayString;
     private String selectedTime;
 
     // 생성자
     public AlarmListDataSet(int alarmID, Uri pillImgUri, boolean[] selectedDays, int hour, int minute) {
+
         this.alarmID = alarmID;
         this.pillImgUri = pillImgUri;
-        this.selectedDays = selectedDays;
+        this.selectedDayString = booleanToString(selectedDays).toString();
         this.selectedTime = String.format("%02d:%02d", hour, minute);
+    }
+
+    //배열 저장 불가능하므로, 형태를 바꿔줌.
+    private StringBuilder booleanToString(boolean[] selectedDays){
+        StringBuilder sb = new StringBuilder();
+        String[] dayOfWeek = {"Mon", "Tue","Wed","Thu","Fri","Sat","Sun"};
+
+        for(int i = 0; i<selectedDays.length; i++){
+            if(selectedDays[i]){
+                sb.append(dayOfWeek[i]);
+            }
+        }
+        return sb;
     }
 
     // JSON으로 변환
@@ -31,18 +47,9 @@ public class AlarmListDataSet {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("alarmID", alarmID);
         jsonObject.put("pillImgUri", pillImgUri.toString());
-        jsonObject.put("selectedDays", booleanArrayToString(selectedDays));
+        jsonObject.put("selectedDays", selectedDayString);
         jsonObject.put("selectedTime", selectedTime);
         return jsonObject;
-    }
-
-    // boolean 배열을 문자열로 변환
-    private String booleanArrayToString(boolean[] array) {
-        StringBuilder result = new StringBuilder();
-        for (boolean b : array) {
-            result.append(b ? "1" : "0");
-        }
-        return result.toString();
     }
 
     // JSON 파일 저장
@@ -101,8 +108,11 @@ public class AlarmListDataSet {
     // 문자열을 boolean 배열로 변환하는 메소드
     private static boolean[] stringToBooleanArray(String str) {
         boolean[] result = new boolean[7]; // 7일을 위한 배열
-        for (int i = 0; i < str.length(); i++) {
-            result[i] = str.charAt(i) == '1';
+        String[] dayOfWeek = {"Mon", "Tue","Wed","Thu","Fri","Sat","Sun"};
+        for (int i = 0; i < dayOfWeek.length; i++) {
+            if (selectedDayString.contains(dayOfWeek[i])) {
+                result[i] = true;
+            }
         }
         return result;
     }
@@ -117,7 +127,7 @@ public class AlarmListDataSet {
     }
 
     public boolean[] getSelectedDays() {
-        return selectedDays;
+        return stringToBooleanArray(selectedDayString);
     }
 
     public String getSelectedTime() {
