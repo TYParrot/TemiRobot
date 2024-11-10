@@ -16,26 +16,23 @@ import java.util.ArrayList;
 public class AlarmListDataSet {
     private int alarmID;
     private Uri pillImgUri;
-    //SharedPreferences는 배열 없음.
-    private static String selectedDayString;
+    private String selectedDayString; // static을 제거하고 인스턴스 변수로 변경
     private String selectedTime;
 
     // 생성자
     public AlarmListDataSet(int alarmID, Uri pillImgUri, boolean[] selectedDays, int hour, int minute) {
-
         this.alarmID = alarmID;
         this.pillImgUri = pillImgUri;
         this.selectedDayString = booleanToString(selectedDays).toString();
         this.selectedTime = String.format("%02d:%02d", hour, minute);
     }
 
-    //배열 저장 불가능하므로, 형태를 바꿔줌.
+    // 배열을 문자열로 변환
     private StringBuilder booleanToString(boolean[] selectedDays){
         StringBuilder sb = new StringBuilder();
-        String[] dayOfWeek = {"Mon", "Tue","Wed","Thu","Fri","Sat","Sun"};
-
-        for(int i = 0; i<selectedDays.length; i++){
-            if(selectedDays[i]){
+        String[] dayOfWeek = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        for (int i = 0; i < selectedDays.length; i++) {
+            if (selectedDays[i]) {
                 sb.append(dayOfWeek[i]);
             }
         }
@@ -52,25 +49,31 @@ public class AlarmListDataSet {
         return jsonObject;
     }
 
-    // JSON 파일 저장
-    public static void saveToJSONFile(ArrayList<AlarmListDataSet> alarmList, Context context) {
-        JSONArray jsonArray = new JSONArray();
-        for (AlarmListDataSet alarm : alarmList) {
-            try {
-                jsonArray.put(alarm.toJSON());
-            } catch (JSONException e) {
-                e.printStackTrace();
+    // 문자열을 boolean 배열로 변환
+    private static boolean[] stringToBooleanArrayStatic(String str) {
+        boolean[] result = new boolean[7]; // 7일을 위한 배열
+        String[] dayOfWeek = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        for (int i = 0; i < dayOfWeek.length; i++) {
+            if (str.contains(dayOfWeek[i])) {
+                result[i] = true;
             }
         }
-
-        try (OutputStream os = context.openFileOutput("alarms.json", Context.MODE_PRIVATE)) {
-            os.write(jsonArray.toString().getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return result;
     }
 
-    // JSON 파일 읽기
+    // 문자열을 boolean 배열로 변환
+    private boolean[] stringToBooleanArray(String str) {
+        boolean[] result = new boolean[7]; // 7일을 위한 배열
+        String[] dayOfWeek = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        for (int i = 0; i < dayOfWeek.length; i++) {
+            if (str.contains(dayOfWeek[i])) {
+                result[i] = true;
+            }
+        }
+        return result;
+    }
+
+    // JSON 파일에서 불러오기
     public static ArrayList<AlarmListDataSet> loadFromJSONFile(Context context) {
         ArrayList<AlarmListDataSet> alarmList = new ArrayList<>();
         String jsonString;
@@ -91,7 +94,8 @@ public class AlarmListDataSet {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 int alarmID = jsonObject.getInt("alarmID");
                 Uri pillImgUri = Uri.parse(jsonObject.getString("pillImgUri"));
-                boolean[] selectedDays = stringToBooleanArray(jsonObject.getString("selectedDays"));
+                String selectedDaysString = jsonObject.getString("selectedDays");
+                boolean[] selectedDays = stringToBooleanArrayStatic(selectedDaysString);
                 String[] timeParts = jsonObject.getString("selectedTime").split(":");
                 int hour = Integer.parseInt(timeParts[0]);
                 int minute = Integer.parseInt(timeParts[1]);
@@ -103,18 +107,6 @@ public class AlarmListDataSet {
         }
 
         return alarmList;
-    }
-
-    // 문자열을 boolean 배열로 변환하는 메소드
-    private static boolean[] stringToBooleanArray(String str) {
-        boolean[] result = new boolean[7]; // 7일을 위한 배열
-        String[] dayOfWeek = {"Mon", "Tue","Wed","Thu","Fri","Sat","Sun"};
-        for (int i = 0; i < dayOfWeek.length; i++) {
-            if (selectedDayString.contains(dayOfWeek[i])) {
-                result[i] = true;
-            }
-        }
-        return result;
     }
 
     // Getter 메소드들
@@ -134,3 +126,4 @@ public class AlarmListDataSet {
         return selectedTime;
     }
 }
+

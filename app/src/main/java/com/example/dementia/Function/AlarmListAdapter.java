@@ -88,12 +88,10 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
 
             boolean[] selectedDays = alarmData.getSelectedDays();
 
-            String[] dayLabels = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-
             for (int i = 0; i < 7; i++) {
                 weekdays[i].setVisibility(selectedDays[i] ? View.VISIBLE : View.GONE);
             }
-
         }
+
     }
 }
