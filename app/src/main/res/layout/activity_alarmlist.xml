@@ -6,24 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".UI.AlarmListUI">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/alarmRecyclerView"
+    <LinearLayout
+        android:id = "@+id/alarmRecyclerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/alarmRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
 
 
     <Button
         android:id="@+id/alarmAddBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="추가하기"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
+        android:text="추가하기"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
