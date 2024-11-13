@@ -54,6 +54,10 @@
             android:name=".Function.AlarmService"
             android:enabled="true"
             android:exported="false" />
+
+        <!-- 이미지 메인 페이지 등록 -->
+        <activity android:name=".UI.ImageListUI"></activity>
+
     </application>
 
 </manifest>
