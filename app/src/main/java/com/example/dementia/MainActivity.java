@@ -18,8 +18,7 @@ import com.example.dementia.Manager.ImageUserManager;
 import com.example.dementia.UI.ImageListUI;
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.UI.AlarmListUI;
-
-
+import com.example.dementia.Manager.ImageUserManager;
 
 
 

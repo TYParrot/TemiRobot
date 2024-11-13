@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +10,7 @@
         android:divider="?android:attr/dividerHorizontal"
         android:showDividers="middle">
 
-        <!-- Back Button -->
+        <!-- 뒤로가기 버튼 -->
         <Button
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
@@ -20,7 +19,7 @@
             android:layout_marginBottom="16dp"
             android:layout_gravity="center_horizontal" />
 
-        <!-- User Management Section -->
+        <!-- 사용자 관리 섹션 -->
         <LinearLayout
             android:id="@+id/user_management_section"
             android:layout_width="match_parent"
@@ -36,36 +35,7 @@
                 android:textStyle="bold"
                 android:textSize="18sp" />
 
-            <!-- Example of a saved user entry -->
-            <LinearLayout
-                android:id="@+id/saved_user_entry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:id="@+id/saved_user_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="저장된 이름" />
-
-                <ToggleButton
-                    android:id="@+id/saved_user_sound_toggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textOn="효과음 1"
-                    android:textOff="효과음 1" />
-
-                <Button
-                    android:id="@+id/delete_user_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="삭제" />
-            </LinearLayout>
-
-            <!-- New user entry -->
+            <!-- 새로운 사용자 이름과 효과음 선택 -->
             <LinearLayout
                 android:id="@+id/new_user_entry"
                 android:layout_width="match_parent"
@@ -80,12 +50,11 @@
                     android:layout_weight="1"
                     android:hint="이름 입력" />
 
-                <ToggleButton
-                    android:id="@+id/sound_toggle"
+                <!-- 효과음 선택을 위한 드롭다운 -->
+                <Spinner
+                    android:id="@+id/soundEffectSpinner"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textOn="효과음 선택"
-                    android:textOff="효과음 선택" />
+                    android:layout_height="wrap_content" />
 
                 <Button
                     android:id="@+id/add_user_button"
@@ -93,114 +62,13 @@
                     android:layout_height="wrap_content"
                     android:text="추가" />
             </LinearLayout>
-        </LinearLayout>
 
-        <!-- Image Settings Section -->
-        <LinearLayout
-            android:id="@+id/image_settings_section"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
-
-            <TextView
-                android:id="@+id/image_settings_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="이미지 설정"
-                android:textStyle="bold"
-                android:textSize="18sp" />
-
-            <!-- List of saved images -->
+            <!-- 사용자 목록을 보여줄 ListView -->
             <ListView
-                android:id="@+id/imageListView"
+                android:id="@+id/user_list_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:divider="@android:color/darker_gray"
-                android:dividerHeight="1dp"
-                android:padding="8dp" />
-
-            <!-- New image entry -->
-            <LinearLayout
-                android:id="@+id/new_image_entry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <ToggleButton
-                    android:id="@+id/name_select_toggle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textOn="이름 선택"
-                    android:textOff="이름 선택" />
-
-                <Button
-                    android:id="@+id/select_image_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="사진 선택" />
-
-                <Button
-                    android:id="@+id/add_image_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="추가" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Alarm Settings Section -->
-        <LinearLayout
-            android:id="@+id/alarm_settings_section"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
-
-            <TextView
-                android:id="@+id/alarm_settings_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="알람 설정"
-                android:textStyle="bold"
-                android:textSize="18sp" />
-
-            <ToggleButton
-                android:id="@+id/alarm_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textOn="시간 선택"
-                android:textOff="시간 선택" />
-
-            <TextView
-                android:id="@+id/alarm_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="시간마다 랜덤으로 이미지가 보여집니다." />
-
-            <LinearLayout
-                android:id="@+id/dnd_time_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:id="@+id/dnd_time_label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="방해금지 시간 설정" />
-
-                <Button
-                    android:id="@+id/set_dnd_time_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="시간 선택" />
-            </LinearLayout>
+                android:layout_height="99dp"
+                android:layout_marginTop="16dp" />
         </LinearLayout>
 
     </LinearLayout>

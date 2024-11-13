@@ -58,6 +58,7 @@
         <!-- 이미지 메인 페이지 등록 -->
         <activity android:name=".UI.ImageListUI"></activity>
 
+
     </application>
 
 </manifest>

@@ -2,24 +2,17 @@ package com.example.dementia.Manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ImageUserManager {
 
-    private static final String PREF_NAME = "ImageUserPreferences";
-    private static final String IMAGE_LIST_KEY = "ImageList"; // 이미지 목록을 저장할 키
-
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-
-    // Singleton 패턴
     private static ImageUserManager instance;
+    private SharedPreferences sharedPreferences;
 
     private ImageUserManager(Context context) {
-        sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        this.sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
     }
 
     public static ImageUserManager getInstance(Context context) {
@@ -29,44 +22,37 @@ public class ImageUserManager {
         return instance;
     }
 
-    // 이미지 목록 저장
-    public void saveImageList(List<String> imagePaths) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String path : imagePaths) {
-            stringBuilder.append(path).append(",");
-        }
-        editor.putString(IMAGE_LIST_KEY, stringBuilder.toString());
+    // 사용자 이름과 선택된 효과음을 저장
+    public void saveUser(String name, String soundEffect) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(name, soundEffect);
         editor.apply();
     }
 
-    // 이미지 목록 불러오기
-    public List<String> getImageList() {
-        List<String> imageList = new ArrayList<>();
-        String savedImages = sharedPreferences.getString(IMAGE_LIST_KEY, "");
-        if (!savedImages.isEmpty()) {
-            String[] imagePaths = savedImages.split(",");
-            for (String path : imagePaths) {
-                if (!path.isEmpty()) {
-                    imageList.add(path);
-                }
-            }
-        }
-        return imageList;
+    // 저장된 사용자 이름과 효과음 불러오기
+    public String getUserSoundEffect(String name) {
+        return sharedPreferences.getString(name, "기본 효과음");
     }
 
-    // 이미지 추가
-    public void addImage(String imagePath) {
-        List<String> currentList = getImageList();
-        currentList.add(imagePath);
-        saveImageList(currentList); // 수정된 리스트 저장
+    // 저장된 사용자 삭제
+    public void deleteUser(String name) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(name);
+        editor.apply();
     }
 
-    // 이미지 삭제
-    public void deleteImage(String imagePath) {
-        List<String> currentList = getImageList();
-        if (currentList.contains(imagePath)) {
-            currentList.remove(imagePath);
-            saveImageList(currentList); // 수정된 리스트 저장
+    // 모든 사용자 이름과 효과음을 가져오기
+    public List<String> getAllUsersWithEffects() {
+        List<String> usersWithEffects = new ArrayList<>();
+        Map<String, ?> allEntries = sharedPreferences.getAll();
+
+        // 모든 사용자 이름과 그에 해당하는 효과음을 리스트에 추가
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            String userName = entry.getKey();
+            String soundEffect = (String) entry.getValue();
+            usersWithEffects.add(userName + " - " + soundEffect); // 이름과 효과음을 하나의 문자열로 묶기
         }
+
+        return usersWithEffects;
     }
 }
