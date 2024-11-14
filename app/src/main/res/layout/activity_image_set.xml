@@ -116,6 +116,13 @@
                 android:layout_height="wrap_content"
                 android:text="선택된 효과음: "
                 android:layout_marginTop="8dp"/>
+
+            <!-- 사용자-이미지 경로 목록 표시 ListView 추가 -->
+            <ListView
+                android:id="@+id/user_image_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
         </LinearLayout>
 
 

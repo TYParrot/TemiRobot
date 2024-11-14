@@ -26,7 +26,7 @@ public class ImageListUI extends AppCompatActivity {
     private EditText nameInput;
     private Spinner soundEffectSpinner, userSpinner;
     private Button addUserButton, addImageButton;
-    private ListView userListView;
+    private ListView userListView, userImageListView; // 사용자 리스트 및 사용자-이미지 경로 리스트
     private TextView selectedSoundEffectText;
     private ImageUserManager imageUserManager;
 
@@ -46,6 +46,7 @@ public class ImageListUI extends AppCompatActivity {
         // 이미지 설정 UI
         userSpinner = findViewById(R.id.userSpinner);
         selectedSoundEffectText = findViewById(R.id.selected_sound_effect);
+        userImageListView = findViewById(R.id.user_image_list_view); // 사용자-이미지 경로 리스트
 
         // 효과음 드롭다운 설정
         ArrayAdapter<CharSequence> soundEffectAdapter = ArrayAdapter.createFromResource(this,
@@ -58,6 +59,9 @@ public class ImageListUI extends AppCompatActivity {
 
         // 사용자 이름 목록을 Spinner에 표시
         updateUserSpinner();
+
+        // 사용자-이미지 경로 목록 표시
+        updateUserImageListView();
 
         // 사용자 추가 버튼 클릭 시
         addUserButton.setOnClickListener(v -> {
@@ -117,14 +121,34 @@ public class ImageListUI extends AppCompatActivity {
         userSpinner.setAdapter(spinnerAdapter);
     }
 
+    // 저장된 사용자-이미지 경로 목록을 ListView에 표시
+    private void updateUserImageListView() {
+        ArrayList<String> users = imageUserManager.getAllUsers();
+        ArrayList<String> userImageList = new ArrayList<>();
+
+        for (String user : users) {
+            String imagePath = imageUserManager.getUserImage(user);
+            userImageList.add(user + " - " + (imagePath != null ? imagePath : null));
+        }
+
+        ArrayAdapter<String> imageAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, userImageList);
+        userImageListView.setAdapter(imageAdapter);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == 1) {
             Uri selectedImageUri = data.getData();
-            // 선택된 이미지를 처리하는 코드 추가 (예: 이미지 미리보기, 데이터 저장 등)
-            Toast.makeText(this, "이미지가 선택되었습니다: " + selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
+            String selectedUser = userSpinner.getSelectedItem().toString();
+
+            if (selectedImageUri != null && selectedUser != null) {
+                imageUserManager.saveUserImage(selectedUser, selectedImageUri.toString());
+                updateUserImageListView();  // 사용자-이미지 경로 목록 갱신
+                Toast.makeText(this, "이미지가 저장되었습니다.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
