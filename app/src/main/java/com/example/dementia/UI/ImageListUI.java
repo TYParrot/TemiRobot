@@ -13,7 +13,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.app.TimePickerDialog;
+import android.widget.TextView;
+import java.util.Calendar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dementia.Manager.ImageUserManager;
@@ -30,6 +32,8 @@ public class ImageListUI extends AppCompatActivity {
     private TextView selectedSoundEffectText;
     private ImageUserManager imageUserManager;
     private Spinner intervalSpinner;
+    private TextView startTimeText, endTimeText;
+    private Button startTimeButton, endTimeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,7 @@ public class ImageListUI extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
             }
+
         });
 
         // 사용자 선택 후 효과음 표시
@@ -93,7 +98,9 @@ public class ImageListUI extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
                 // 아무것도 선택되지 않았을 때의 처리 (필요에 따라 추가)
             }
-        });
+        }
+
+        );
 
         // 이미지 추가하기 버튼 클릭 리스너
         addImageButton = findViewById(R.id.addImageButton);
@@ -127,6 +134,17 @@ public class ImageListUI extends AppCompatActivity {
                 // 아무것도 선택되지 않았을 때
             }
         });
+        // 방해금지 시간 설정 UI
+        startTimeText = findViewById(R.id.start_time_text);
+        endTimeText = findViewById(R.id.end_time_text);
+        startTimeButton = findViewById(R.id.start_time_button);
+        endTimeButton = findViewById(R.id.end_time_button);
+
+        // 시작 시간 설정 버튼 클릭 리스너
+        startTimeButton.setOnClickListener(v -> showTimePickerDialog(startTimeText));
+
+        // 종료 시간 설정 버튼 클릭 리스너
+        endTimeButton.setOnClickListener(v -> showTimePickerDialog(endTimeText));
     }
 
     // 저장된 사용자 목록을 ListView에 표시
@@ -176,6 +194,22 @@ public class ImageListUI extends AppCompatActivity {
             }
         }
     }
+    // 시간 선택 다이얼로그 표시
+    private void showTimePickerDialog(TextView timeTextView) {
+        // 현재 시간을 기본값으로 설정
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
 
+        // TimePickerDialog 생성
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                (view, selectedHour, selectedMinute) -> {
+                    // 선택된 시간 설정
+                    String time = String.format("%02d:%02d", selectedHour, selectedMinute);
+                    timeTextView.setText(timeTextView.getId() == R.id.start_time_text ? "시작 시간: " + time : "종료 시간: " + time);
+                }, hour, minute, true);
+
+        timePickerDialog.show();
+    }
 
 }

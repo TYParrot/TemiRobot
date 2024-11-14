@@ -147,6 +147,69 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+        <!-- 방해금지 시간 설정 섹션 -->
+        <LinearLayout
+            android:id="@+id/do_not_disturb_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="방해금지 시간 설정"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <!-- 방해금지 시작 시간 설정 버튼 -->
+                <Button
+                    android:id="@+id/start_time_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="시작 시간 설정" />
+
+                <!-- 시작 시간 표시 텍스트 -->
+                <TextView
+                    android:id="@+id/start_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:text="시작 시간: 설정 안 됨" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <!-- 방해금지 종료 시간 설정 버튼 -->
+                <Button
+                    android:id="@+id/end_time_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="종료 시간 설정" />
+
+                <!-- 종료 시간 표시 텍스트 -->
+                <TextView
+                    android:id="@+id/end_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:text="종료 시간: 설정 안 됨" />
+            </LinearLayout>
         </LinearLayout>
 
 
