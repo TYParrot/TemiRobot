@@ -2,8 +2,8 @@ package com.example.dementia.Manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class ImageUserManager {
@@ -34,25 +34,20 @@ public class ImageUserManager {
         return sharedPreferences.getString(name, "기본 효과음");
     }
 
+    // 저장된 사용자 목록 가져오기
+    public ArrayList<String> getAllUsers() {
+        Map<String, ?> allEntries = sharedPreferences.getAll();
+        ArrayList<String> users = new ArrayList<>();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            users.add(entry.getKey()); // 사용자 이름은 key에 저장되어 있음
+        }
+        return users;
+    }
+
     // 저장된 사용자 삭제
     public void deleteUser(String name) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(name);
         editor.apply();
-    }
-
-    // 모든 사용자 이름과 효과음을 가져오기
-    public List<String> getAllUsersWithEffects() {
-        List<String> usersWithEffects = new ArrayList<>();
-        Map<String, ?> allEntries = sharedPreferences.getAll();
-
-        // 모든 사용자 이름과 그에 해당하는 효과음을 리스트에 추가
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            String userName = entry.getKey();
-            String soundEffect = (String) entry.getValue();
-            usersWithEffects.add(userName + " - " + soundEffect); // 이름과 효과음을 하나의 문자열로 묶기
-        }
-
-        return usersWithEffects;
     }
 }
