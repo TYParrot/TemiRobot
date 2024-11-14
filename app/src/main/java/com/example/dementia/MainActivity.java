@@ -14,8 +14,13 @@ import android.view.View;
 import android.widget.*;
 import android.content.*;
 
+import com.example.dementia.Manager.ImageUserManager;
+import com.example.dementia.UI.ImageListUI;
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.UI.AlarmListUI;
+import com.example.dementia.Manager.ImageUserManager;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -98,14 +103,14 @@ public class MainActivity extends AppCompatActivity {
     * */
     private void convertPage(){
 //        이미지 자동 버튼
-//        Button imageBtn = findViewById(R.id.imageBtn);
-//        imageBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent iamges = new Intent(MainActivity.this, "여기 생성한 이미지 자동 재생 페이지 클래스 넣으세요.");
-//                startActivity(images);
-//            }
-//        });
+        Button imageBtn = findViewById(R.id.imageBtn);
+        imageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent images = new Intent(MainActivity.this, ImageListUI.class);
+                startActivity(images);
+            }
+        });
 
         //알람 버튼
         Button alarmBtn = findViewById(R.id.alarmBtn);
