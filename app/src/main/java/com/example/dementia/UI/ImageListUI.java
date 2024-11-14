@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dementia.MainActivity;
 import com.example.dementia.Manager.ImageUserManager;
 import com.example.dementia.R;
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 public class ImageListUI extends AppCompatActivity {
 
+    private Button backButton;
     private EditText nameInput;
     private Spinner soundEffectSpinner, userSpinner;
     private Button addUserButton, addImageButton;
@@ -67,6 +69,15 @@ public class ImageListUI extends AppCompatActivity {
 
         // 사용자-이미지 경로 목록 표시
         updateUserImageListView();
+
+        //뒤로가기 버튼 클릭 시
+        backButton = findViewById(R.id.backBtn);
+        backButton.setOnClickListener(v -> {
+            // MainActivity로 돌아가기 위한 인텐트
+            Intent intent = new Intent(ImageListUI.this, MainActivity.class);
+            startActivity(intent);
+            finish();  // 현재 Activity를 종료시켜 이전 화면으로 돌아가도록 처리
+        });
 
         // 사용자 추가 버튼 클릭 시
         addUserButton.setOnClickListener(v -> {
