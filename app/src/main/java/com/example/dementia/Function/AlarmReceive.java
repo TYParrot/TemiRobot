@@ -7,11 +7,14 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.net.Uri;
 import android.widget.Toast;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.dementia.R;
 import com.example.dementia.UI.AlarmNotificationUI;
 
 //정해진 시간에 알림 호출
@@ -66,9 +69,24 @@ public class AlarmReceive extends BroadcastReceiver {
     private void createNotificationChannel(Context context) {
         // 채널 설정 (Android 8.0 이상)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Alarm Channel", NotificationManager.IMPORTANCE_HIGH);
+            // 알림 사운드 URI 생성
+            Uri soundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.alarm1);
+
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Alarm Channel",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+
+            // 알림 채널에 사운드와 AudioAttributes 설정 추가
+            channel.setSound(soundUri, new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build());
+
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
+
 }

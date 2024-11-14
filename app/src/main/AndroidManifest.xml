@@ -10,16 +10,21 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <!--
-아래는 알람 관련 권한
-        진동 사용
-    -->
-    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 알림(노티) -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- 재 부팅시 -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- 정확한 알람 설정 -->
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" /> <!-- 포그라운드 서비스 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 알람화면 -->
+
+    <!--진동 사용-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 알림(노티) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 재 부팅시 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 정확한 알람 설정 -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- 포그라운드 서비스 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- 알람화면 -->
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
+
 
     <application
         android:allowBackup="true"
@@ -28,7 +33,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dementia">
-        <activity android:name=".UI.AlarmNotificationUI"></activity>
+        <activity android:name=".UI.AlarmNotificationUI" />
         <activity android:name=".UI.AlarmSetUI" />
         <activity android:name=".UI.AlarmListUI" />
         <activity
@@ -39,16 +44,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- 알림을 받기 위한 receiver등록 -->
-        <receiver android:name=".Function.AlarmReceive"
+        </activity> <!-- 알림을 받기 위한 receiver등록 -->
+        <receiver
+            android:name=".Function.AlarmReceive"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.example.dementia.ACTION_ALARM_RECEIVE" />
             </intent-filter>
         </receiver>
-
 
         <service
             android:name=".Function.AlarmService"
