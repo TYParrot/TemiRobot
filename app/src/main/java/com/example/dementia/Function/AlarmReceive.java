@@ -7,11 +7,13 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.Toast;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.dementia.R;
 import com.example.dementia.UI.AlarmNotificationUI;
 
 //정해진 시간에 알림 호출
@@ -47,12 +49,16 @@ public class AlarmReceive extends BroadcastReceiver {
         //중첩이 되도록 하려면 FLAG_IMMUTABLE, CURRENT_UPDATE는 최근거...
         PendingIntent pendingNotiUI = PendingIntent.getActivity(context, alarmID, alarmNotiUI,  PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+        // 알림 사운드 URI 생성
+        Uri soundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.alarm1);
+
         // 알림 빌드
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle("적절한 복용 시간!")
                 .setContentText("지금 약을 섭취하면 가장 효과적이에요!")
                 .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
                 .setContentIntent(pendingNotiUI)
+                .setSound(soundUri)
                 .build();
 
         // 고유 ID로 알림 표시
