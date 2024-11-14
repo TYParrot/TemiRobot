@@ -29,6 +29,7 @@ public class ImageListUI extends AppCompatActivity {
     private ListView userListView, userImageListView; // 사용자 리스트 및 사용자-이미지 경로 리스트
     private TextView selectedSoundEffectText;
     private ImageUserManager imageUserManager;
+    private Spinner intervalSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,30 @@ public class ImageListUI extends AppCompatActivity {
             intent.setType("image/*");
             startActivityForResult(intent, 1); // 1은 요청 코드
         });
+
+        // Section 3의 Spinner 설정
+        intervalSpinner = findViewById(R.id.intervalSpinner);
+
+        // 시간 간격 드롭다운 설정 (30, 60, 120분)
+        ArrayAdapter<CharSequence> intervalAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, new String[]{"30분", "60분", "120분"});
+        intervalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        intervalSpinner.setAdapter(intervalAdapter);
+
+        // 선택한 시간 간격에 대한 리스너
+        intervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedInterval = intervalSpinner.getSelectedItem().toString();
+                Toast.makeText(ImageListUI.this, "선택한 간격: " + selectedInterval, Toast.LENGTH_SHORT).show();
+                // 선택한 값을 저장하는 로직 추가 가능
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 아무것도 선택되지 않았을 때
+            }
+        });
     }
 
     // 저장된 사용자 목록을 ListView에 표시
@@ -151,4 +176,6 @@ public class ImageListUI extends AppCompatActivity {
             }
         }
     }
+
+
 }
