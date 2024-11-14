@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.example.dementia"
         //알림을 보내는데 있어서 최소 버전 26이라 23-->26으로 변경
-        minSdkVersion 26
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -42,6 +42,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     //TEMI와 연결했을 때 아래의 코드 주석 처리를 해제하세요.
-    //implementation 'com.robotemi:sdk:1.131.4'
+    implementation 'com.robotemi:sdk:1.131.4'
 
 }
