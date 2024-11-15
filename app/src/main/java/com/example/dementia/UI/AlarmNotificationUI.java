@@ -55,8 +55,6 @@ public class AlarmNotificationUI extends AppCompatActivity {
             public void onClick(View view) {
 
                 cancelNotification();
-
-                System.out.println("ui에서 종료된 알람" + notificationID);
                 finish();
             }
         });

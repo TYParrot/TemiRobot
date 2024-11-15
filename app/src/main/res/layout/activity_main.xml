@@ -10,10 +10,11 @@
 
     <Button
         android:id="@+id/imageBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="244dp"
         android:text="이미지"
+        android:textSize = "30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,9 +22,10 @@
 
     <Button
         android:id="@+id/alarmBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="알람"
+        android:textSize = "30sp"
         app:layout_constraintTop_toBottomOf="@+id/imageBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,12 +33,13 @@
 
     <Button
         android:id="@+id/sleepBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="수면"
+        android:textSize = "30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alarmBtn" />
 
