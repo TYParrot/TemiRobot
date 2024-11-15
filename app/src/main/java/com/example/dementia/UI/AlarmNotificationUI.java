@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.dementia.Function.MusicService;
 import com.example.dementia.R;
 
 //알림 누르면 알림에 대한 정보를 불러와 이미지를 띄우며 복용 완료 버튼을 누르도록 함.
@@ -19,6 +21,7 @@ public class AlarmNotificationUI extends AppCompatActivity {
     private ImageView notiPillImg;
     private Button ateBtn;
     private int notificationID;
+    private Intent musicIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,10 @@ public class AlarmNotificationUI extends AppCompatActivity {
         ateBtn = findViewById(R.id.atePillBtn);
 
         setNotiPillImg();
+
+        musicIntent = new Intent(this, MusicService.class);
+        musicIntent.putExtra("musicName", "alarm_noti_cmajor");
+        startService(musicIntent);
     }
 
     //사용자가 저장한 알약 이미지를 불러와서 세팅.
@@ -53,7 +60,7 @@ public class AlarmNotificationUI extends AppCompatActivity {
         ateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                stopService(musicIntent);
                 cancelNotification();
                 finish();
             }
