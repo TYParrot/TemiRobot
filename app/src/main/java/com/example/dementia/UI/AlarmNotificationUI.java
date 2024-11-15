@@ -2,10 +2,13 @@ package com.example.dementia.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,7 +21,9 @@ public class AlarmNotificationUI extends AppCompatActivity {
 
     private ImageView notiPillImg;
     private Button ateBtn;
+    private Button musicBtn;
     private int notificationID;
+    private MediaPlayer m; // MediaPlayer를 멤버 변수로 선언
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +44,37 @@ public class AlarmNotificationUI extends AppCompatActivity {
     private void init(){
         notiPillImg = findViewById(R.id.alarmNotiPillImg);
         ateBtn = findViewById(R.id.atePillBtn);
+        musicBtn = findViewById(R.id.musicBtn);
 
         setNotiPillImg();
+
+        // 음악 자동 재생
+        Handler mHandler = new Handler(Looper.getMainLooper());
+        mHandler.postDelayed(()->musicBtn.performClick(), 0);
+
+        // 음악 버튼 클릭 리스너 설정
+        musicBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context c = view.getContext();
+                m = MediaPlayer.create(c, R.raw.alarm_noti_cmajor); // 음악 파일 설정
+                m.start(); // 음악 시작
+
+                // 음악 종료 후 반복 재생 처리
+                m.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        mediaPlayer.seekTo(0); // 음악을 처음으로 되돌리고
+                        mediaPlayer.start(); // 다시 시작
+                    }
+                });
+            }
+        });
     }
 
     //사용자가 저장한 알약 이미지를 불러와서 세팅.
     private void setNotiPillImg(){
-
+        // 이미지 불러오기 설정 (필요한 코드 추가)
     }
 
     //버튼 클릭 이벤트
@@ -53,10 +82,7 @@ public class AlarmNotificationUI extends AppCompatActivity {
         ateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 cancelNotification();
-
-                System.out.println("ui에서 종료된 알람" + notificationID);
                 finish();
             }
         });
@@ -67,6 +93,16 @@ public class AlarmNotificationUI extends AppCompatActivity {
         NotificationManager notiManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if(notiManager != null){
             notiManager.cancel(notificationID);
+        }
+    }
+
+    // Activity 종료 시 MediaPlayer 리소스 해제
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (m != null) {
+            m.stop(); // 음악 정지
+            m.release(); // 리소스 해제
         }
     }
 }

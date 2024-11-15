@@ -85,7 +85,6 @@ public class AlarmListUI extends AppCompatActivity {
         listToMain.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent alarmListBack = new Intent(AlarmListUI.this, MainActivity.class);
                 finish();
                 AlarmListUI.super.onBackPressed();
             }

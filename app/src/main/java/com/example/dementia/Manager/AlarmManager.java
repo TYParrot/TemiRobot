@@ -79,10 +79,10 @@ public class AlarmManager {
         Intent intent = new Intent(currentContext, AlarmReceive.class);
         intent.setAction("com.example.dementia.ACTION_ALARM_RECEIVE");
         intent.putExtra("alarm_id", alarmID);
-        //핸드폰 테스트
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, alarmID, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-//        //기존 pending
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, alarmID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        //핸드폰 테스트
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, alarmID, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        //기존 pending
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, alarmID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (systemAlarmManager != null) {
             // 매주 반복되는 요일별 알람 설정
