@@ -36,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
         //매니저들 초기화
         MainManager.getMain().initAlarmManager(this);
+        MainManager.getMain().getAlarm().restoreAlarms();
 
         //버튼들의 화면 전환 메소드
         convertPage();
+
+        //재시작시 알림 채널 재설정
     }
 
 

@@ -143,7 +143,7 @@ public class AlarmSetUI extends AppCompatActivity {
     //데이터를 AlarmListDataSet에 저장
     private void saveData(){
 
-        alarmDataManager.saveData(alarmID, imgUri, dayBtnsClicked, hour, minute);
+        alarmDataManager.saveData(this, alarmID, imgUri, dayBtnsClicked, hour, minute);
 
     }
 

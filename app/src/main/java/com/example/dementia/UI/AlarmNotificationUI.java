@@ -127,4 +127,10 @@ public class AlarmNotificationUI extends AppCompatActivity {
             m.release(); // 리소스 해제
         }
     }
+
+    //사용자가 알림 소리를 들을 수 있도록
+    //집 안을 한 바퀴 돌도록 하는 기능 추가 예정
+    private void goAround(){
+
+    }
 }

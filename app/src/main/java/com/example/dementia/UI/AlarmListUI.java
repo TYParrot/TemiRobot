@@ -59,6 +59,7 @@ public class AlarmListUI extends AppCompatActivity {
 
     //알람 목록 갱신 및 데이터 불러오기.
     private void refreshAlarmList(){
+        alarmDataManager.loadFromFile(this);
         alarmListData = alarmDataManager.getAllAlarms();
         adapter = new AlarmListAdapter(alarmListData);
 
