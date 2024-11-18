@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,12 +14,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.dementia.Manager.AlarmDataManager;
+import com.example.dementia.Manager.MainManager;
 import com.example.dementia.R;
 
 //알림 누르면 알림에 대한 정보를 불러와 이미지를 띄우며 복용 완료 버튼을 누르도록 함.
 //Intent를 통해 알람 고유 ID 전달할 수 있도록 해야함.
 public class AlarmNotificationUI extends AppCompatActivity {
 
+    private AlarmDataManager alarmDataManager;
     private ImageView notiPillImg;
     private Button ateBtn;
     private Button musicBtn;
@@ -42,6 +46,9 @@ public class AlarmNotificationUI extends AppCompatActivity {
 
     //변수 초기화
     private void init(){
+        //클래스 초기화부터
+        alarmDataManager = MainManager.getMain().getAlarm().getAlarmDataManager();
+
         notiPillImg = findViewById(R.id.alarmNotiPillImg);
         ateBtn = findViewById(R.id.atePillBtn);
         musicBtn = findViewById(R.id.musicBtn);
@@ -70,11 +77,20 @@ public class AlarmNotificationUI extends AppCompatActivity {
                 });
             }
         });
+
     }
 
     //사용자가 저장한 알약 이미지를 불러와서 세팅.
     private void setNotiPillImg(){
-        // 이미지 불러오기 설정 (필요한 코드 추가)
+        String notiImg = alarmDataManager.getAlarmById(notificationID).getPillImgUri();
+
+        if(notiImg != null){
+            Uri notiImgPath = Uri.parse(notiImg);
+            notiPillImg.setImageURI(notiImgPath);
+        }else{
+            notiPillImg.setImageResource(R.drawable.pill);
+        }
+
     }
 
     //버튼 클릭 이벤트

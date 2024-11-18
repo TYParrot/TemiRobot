@@ -15,12 +15,12 @@ import java.util.ArrayList;
 //{"name":"Lisa", "age":23}
 public class AlarmListDataSet {
     private int alarmID;
-    private Uri pillImgUri;
+    private String pillImgUri;
     private String selectedDayString; // static을 제거하고 인스턴스 변수로 변경
     private String selectedTime;
 
     // 생성자
-    public AlarmListDataSet(int alarmID, Uri pillImgUri, boolean[] selectedDays, int hour, int minute) {
+    public AlarmListDataSet(int alarmID, String pillImgUri, boolean[] selectedDays, int hour, int minute) {
         this.alarmID = alarmID;
         this.pillImgUri = pillImgUri;
         this.selectedDayString = booleanToString(selectedDays).toString();
@@ -43,7 +43,7 @@ public class AlarmListDataSet {
     public JSONObject toJSON() throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("alarmID", alarmID);
-        jsonObject.put("pillImgUri", pillImgUri.toString());
+        jsonObject.put("pillImgUri", pillImgUri);
         jsonObject.put("selectedDays", selectedDayString);
         jsonObject.put("selectedTime", selectedTime);
         return jsonObject;
@@ -93,7 +93,7 @@ public class AlarmListDataSet {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 int alarmID = jsonObject.getInt("alarmID");
-                Uri pillImgUri = Uri.parse(jsonObject.getString("pillImgUri"));
+                String pillImgUri = jsonObject.getString("pillImgUri");
                 String selectedDaysString = jsonObject.getString("selectedDays");
                 boolean[] selectedDays = stringToBooleanArrayStatic(selectedDaysString);
                 String[] timeParts = jsonObject.getString("selectedTime").split(":");
@@ -114,7 +114,7 @@ public class AlarmListDataSet {
         return alarmID;
     }
 
-    public Uri getPillImgUri() {
+    public String getPillImgUri() {
         return pillImgUri;
     }
 

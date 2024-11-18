@@ -3,10 +3,12 @@ package com.example.dementia.UI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.os.Bundle;
 import android.widget.TimePicker;
@@ -17,6 +19,8 @@ import com.example.dementia.Manager.AlarmDataManager;
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.R;
 
+import java.util.ArrayList;
+
 //알람 생성 페이지에서 알람을 설정
 //Save를 하면 AlarmListDataSet에 데이터를 저장도 해야함.
 
@@ -26,7 +30,7 @@ public class AlarmSetUI extends AppCompatActivity {
     private AlarmDataManager alarmDataManager;
     //알림 고유 식별자
     private int alarmID;
-    private Uri imgUri;
+    private String imgUri;
     private TimePicker timePicker;
     private int hour;
     private int minute;
@@ -34,6 +38,7 @@ public class AlarmSetUI extends AppCompatActivity {
     private Button[] dayBtns;
     //day 버튼 클릭 유무 저장 배열
     private boolean[] dayBtnsClicked;
+    private static final int REQUEST_CODE_PICK_PILL = 1;
 
 
     @Override
@@ -76,6 +81,9 @@ public class AlarmSetUI extends AppCompatActivity {
         };
 
         dayBtnsClicked = new boolean[7];
+
+        //선택된 이미지 없을 시 초기화 필요
+        imgUri = "pill";
     }
 
     //페이지 전환 전에 필요한 release나 저장 메소드 호출을 함께 관리한다.
@@ -148,7 +156,8 @@ public class AlarmSetUI extends AppCompatActivity {
         pillImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openGallery();
+                Intent pillIntent = new Intent(AlarmSetUI.this, PillSelection.class);
+                startActivityForResult(pillIntent, REQUEST_CODE_PICK_PILL);
             }
         });
 
@@ -172,21 +181,18 @@ public class AlarmSetUI extends AppCompatActivity {
         }
     }
 
-    //이미지 선택 및 로드
-    //아래 부분에서 뜨는 경고 오류 메세지 무시할 것.
-    private void openGallery(){
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                ;
-        startActivityForResult(gallery, PICK_IMAGE);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    //사용자 선택 이미지
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null){
-            imgUri = data.getData();
-            pillImg.setImageURI(imgUri);
+        if (requestCode == REQUEST_CODE_PICK_PILL && resultCode == RESULT_OK) {
+            // 사용자가 선택한 알약 이미지 처리
+            String selectedPill = data.getStringExtra("selectedPill");
+            // 예시로 선택한 알약 이름을 이미지로 변환해서 표시
+            // 실제로는 이미지 URI나 경로로 설정할 수 있습니다.
+            pillImg.setImageResource(getResources().getIdentifier(selectedPill, "drawable", getPackageName()));
+            imgUri = selectedPill;
         }
     }
 
-    
 }
