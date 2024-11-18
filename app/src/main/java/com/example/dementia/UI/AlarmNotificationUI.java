@@ -84,14 +84,20 @@ public class AlarmNotificationUI extends AppCompatActivity {
     private void setNotiPillImg(){
         String notiImg = alarmDataManager.getAlarmById(notificationID).getPillImgUri();
 
-        if(notiImg != null){
-            Uri notiImgPath = Uri.parse(notiImg);
-            notiPillImg.setImageURI(notiImgPath);
-        }else{
-            notiPillImg.setImageResource(R.drawable.pill);
-        }
+        if (notiImg != null) {
+            // drawable 폴더에서 'pill1'이라는 이름의 리소스를 가져오기
+            int resId = getResources().getIdentifier(notiImg, "drawable", getPackageName());
 
+            if (resId != 0) {  // resId가 0이 아니면 유효한 리소스 ID가 있다는 뜻
+                notiPillImg.setImageResource(resId);
+            } else {
+                notiPillImg.setImageResource(R.drawable.pill); // 기본 이미지 설정
+            }
+        } else {
+            notiPillImg.setImageResource(R.drawable.pill); // 기본 이미지 설정
+        }
     }
+
 
     //버튼 클릭 이벤트
     private void BtnClickEvent(){
