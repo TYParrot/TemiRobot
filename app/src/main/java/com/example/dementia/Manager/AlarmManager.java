@@ -30,7 +30,7 @@ public class AlarmManager {
         currentContext = context;
         systemAlarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        alarmDataManager = new AlarmDataManager();
+        alarmDataManager = new AlarmDataManager(context);
     }
 
     // 알람 ID를 저장

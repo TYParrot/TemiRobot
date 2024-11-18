@@ -10,8 +10,11 @@ import java.util.ArrayList;
 public class AlarmDataManager {
     private ArrayList<AlarmListDataSet> alarmList;
 
-    public AlarmDataManager() {
+    public AlarmDataManager(Context context) {
         alarmList = new ArrayList<>();
+
+        //앱만 재구동했을 때도 데이터를 불러와야 함.
+        loadFromFile(context);
     }
 
     // 알람 추가 메소드
