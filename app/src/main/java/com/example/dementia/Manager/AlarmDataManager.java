@@ -14,7 +14,7 @@ public class AlarmDataManager {
     }
 
     // 알람 추가 메소드
-    public void saveData(int alarmID, Uri pillImgUri, boolean[] selectedDays, int hour, int minute) {
+    public void saveData(int alarmID, String pillImgUri, boolean[] selectedDays, int hour, int minute) {
         AlarmListDataSet newAlarm = new AlarmListDataSet(alarmID, pillImgUri, selectedDays, hour, minute);
         alarmList.add(newAlarm);
     }

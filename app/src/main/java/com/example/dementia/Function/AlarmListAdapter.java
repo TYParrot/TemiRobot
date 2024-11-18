@@ -1,5 +1,6 @@
 package com.example.dementia.Function;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,11 @@ public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.Alar
         }
 
         public void bind(AlarmListDataSet alarmData) {
-            pillImg.setImageURI(alarmData.getPillImgUri());
+            Context context = itemView.getContext();
+            int resourceID = context.getResources().getIdentifier(alarmData.getPillImgUri(), "drawable", context.getPackageName());
+
+            pillImg.setImageResource(resourceID);
+
             alarmTime.setText(alarmData.getSelectedTime());
 
             boolean[] selectedDays = alarmData.getSelectedDays();
