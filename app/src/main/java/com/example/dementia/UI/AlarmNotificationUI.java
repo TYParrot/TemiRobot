@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.dementia.Function.AlarmListDataSet;
 import com.example.dementia.Manager.AlarmDataManager;
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.R;
@@ -23,6 +24,7 @@ import com.example.dementia.R;
 public class AlarmNotificationUI extends AppCompatActivity {
 
     private AlarmDataManager alarmDataManager;
+    private AlarmListDataSet alarmListDataSet;
     private ImageView notiPillImg;
     private Button ateBtn;
     private Button musicBtn;
@@ -82,16 +84,23 @@ public class AlarmNotificationUI extends AppCompatActivity {
 
     //사용자가 저장한 알약 이미지를 불러와서 세팅.
     private void setNotiPillImg(){
-        String notiImg = alarmDataManager.getAlarmById(notificationID).getPillImgUri();
+        alarmListDataSet = alarmDataManager.getAlarmById(notificationID);
+        String notiImg = alarmListDataSet.getPillImgUri();
 
-        if(notiImg != null){
-            Uri notiImgPath = Uri.parse(notiImg);
-            notiPillImg.setImageURI(notiImgPath);
-        }else{
-            notiPillImg.setImageResource(R.drawable.pill);
+        if (notiImg != null) {
+            // drawable 폴더에서 'pill1'이라는 이름의 리소스를 가져오기
+            int resId = getResources().getIdentifier(notiImg, "drawable", getPackageName());
+
+            if (resId != 0) {  // resId가 0이 아니면 유효한 리소스 ID가 있다는 뜻
+                notiPillImg.setImageResource(resId);
+            } else {
+                notiPillImg.setImageResource(R.drawable.pill); // 기본 이미지 설정
+            }
+        } else {
+            notiPillImg.setImageResource(R.drawable.pill); // 기본 이미지 설정
         }
-
     }
+
 
     //버튼 클릭 이벤트
     private void BtnClickEvent(){
@@ -120,5 +129,11 @@ public class AlarmNotificationUI extends AppCompatActivity {
             m.stop(); // 음악 정지
             m.release(); // 리소스 해제
         }
+    }
+
+    //사용자가 알림 소리를 들을 수 있도록
+    //집 안을 한 바퀴 돌도록 하는 기능 추가 예정
+    private void goAround(){
+
     }
 }

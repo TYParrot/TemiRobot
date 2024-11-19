@@ -109,6 +109,26 @@ public class AlarmListDataSet {
         return alarmList;
     }
 
+    public static void saveToJSONFile(Context context, ArrayList<AlarmListDataSet> alarmList){
+        JSONArray jsonArray = new JSONArray();
+
+        for(AlarmListDataSet alarm:alarmList){
+            try{
+                jsonArray.put(alarm.toJSON());
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+
+        //json 파일로 저장
+        try(OutputStream os = context.openFileOutput("alarms.json", Context.MODE_PRIVATE)){
+            os.write(jsonArray.toString().getBytes());
+            os.flush();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     // Getter 메소드들
     public int getAlarmID() {
         return alarmID;
