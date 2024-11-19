@@ -46,31 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //권한 확인
+    // 권한 확인
     public void permissionCheck() {
-        // Android 13 미만: 외부 저장소 권한 확인
-        if (Build.VERSION.SDK_INT <= 32) {
-            int permissionRead = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-            if (permissionRead == PackageManager.PERMISSION_GRANTED) {
-                // 저장소 접근 권한이 허가됨
-                // Toast.makeText(this, "저장소 접근 권한이 허가되었습니다.", Toast.LENGTH_SHORT).show();
-            } else {
-                // 저장소 접근 권한 요청
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
-            }
-        }
-        // Android 13 이상: 미디어 이미지 권한 확인
-        else if (Build.VERSION.SDK_INT >= 33) {
-            int permissionReadMediaImages = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES);
-            if (permissionReadMediaImages == PackageManager.PERMISSION_GRANTED) {
-                // 미디어 이미지 접근 권한이 허가됨
-                // Toast.makeText(this, "미디어 이미지 접근 권한이 허가되었습니다.", Toast.LENGTH_SHORT).show();
-            } else {
-                // 미디어 이미지 접근 권한 요청
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, REQUEST_PERMISSION);
-            }
-        }
-
         // 정확한 알람 설정 권한 확인 및 요청 (Android 12 이상)
         if (Build.VERSION.SDK_INT >= 31) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -98,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     /*
     * 화면 전환 버튼의 클릭 이벤트 설정하여 페이지를 변경하는 메소드.
