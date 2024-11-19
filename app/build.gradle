@@ -8,7 +8,6 @@ android {
 
     defaultConfig {
         applicationId "com.example.dementia"
-        //알림을 보내는데 있어서 최소 버전 26이라 23-->26으로 변경
         minSdkVersion 23
         targetSdkVersion 33
         versionCode 1

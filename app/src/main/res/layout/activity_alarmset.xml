@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/timeLayout"
@@ -64,8 +64,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:text="월"
-                android:textSize = "40sp"
                 android:textColor="#000000"
+                android:textSize="20sp"
                 app:backgroundTint="#FFFFFF" />
 
             <Button
@@ -76,8 +76,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:text="화"
-                android:textSize = "40sp"
                 android:textColor="#000000"
+                android:textSize="20sp"
                 app:backgroundTint="#FFFFFF" />
 
             <Button
@@ -88,8 +88,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:text="수"
-                android:textSize = "40sp"
                 android:textColor="#000000"
+                android:textSize="20sp"
                 app:backgroundTint="#FFFFFF" />
 
             <Button
@@ -100,8 +100,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:text="목"
-                android:textSize = "40sp"
                 android:textColor="#000000"
+                android:textSize="20sp"
                 app:backgroundTint="#FFFFFF" />
 
             <Button
@@ -112,8 +112,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:text="금"
-                android:textSize = "40sp"
                 android:textColor="#000000"
+                android:textSize="20sp"
                 app:backgroundTint="#FFFFFF" />
 
             <Button
@@ -124,8 +124,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:text="토"
-                android:textSize = "40sp"
                 android:textColor="#000000"
+                android:textSize="20sp"
                 app:backgroundTint="#FFFFFF" />
 
             <Button
@@ -135,8 +135,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:text="일"
-                android:textSize = "40sp"
                 android:textColor="#000000"
+                android:textSize="20sp"
                 app:backgroundTint="#FFFFFF" />
         </LinearLayout>
 
