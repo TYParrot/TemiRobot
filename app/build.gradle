@@ -41,6 +41,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     //TEMI와 연결했을 때 아래의 코드 주석 처리를 해제하세요.
-//    implementation 'com.robotemi:sdk:1.131.4'
+    implementation 'com.robotemi:sdk:1.131.4'
 
 }
