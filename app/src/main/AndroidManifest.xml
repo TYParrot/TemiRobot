@@ -28,6 +28,7 @@
         <activity android:name=".UI.AlarmNotificationUI" />
         <activity android:name=".UI.AlarmSetUI" />
         <activity android:name=".UI.AlarmListUI" />
+        <activity android:name=".UI.ImageDisplayUI" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -48,8 +49,7 @@
         <service
             android:name=".Function.AlarmService"
             android:enabled="true"
-            android:exported="true" /> <!-- 이미지 메인 페이지 등록 -->
-        <activity android:name=".UI.ImageListUI" />
+            android:exported="true" />
 
     </application>
 

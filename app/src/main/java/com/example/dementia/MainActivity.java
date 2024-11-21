@@ -1,6 +1,8 @@
 //Temi 버전
 package com.example.dementia;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.AlarmManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,7 +19,6 @@ import com.robotemi.sdk.permission.OnRequestPermissionResultListener;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dementia.Manager.MainManager;
-import com.example.dementia.UI.ImageListUI;
 import com.example.dementia.UI.AlarmListUI;
 
 import java.util.Arrays;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent images = new Intent(MainActivity.this, ImageListUI.class);
+                Intent images = new Intent(MainActivity.this, com.example.dementia.UI.ImageDisplayUI.class);
                 startActivity(images);
             }
         });
