@@ -81,8 +81,10 @@ public class AlarmManager {
         intent.setAction("com.example.dementia.ACTION_ALARM_RECEIVE");
         intent.putExtra("alarm_id", alarmID);
 
-        //핸드폰 테스트
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, alarmID, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        //temi 테스트
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, alarmID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//      //핸드폰 테스트
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(currentContext, alarmID, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (systemAlarmManager != null) {
             systemAlarmManager.setRepeating(

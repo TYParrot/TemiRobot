@@ -1,6 +1,7 @@
 package com.example.dementia.UI;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -80,19 +81,22 @@ public class PillSelection extends AppCompatActivity {
                 imageView = (ImageView) convertView;
             }
 
-            // 리소스 ID 가져오기
-            int resId = getResources().getIdentifier(pillNames[position], "drawable", getPackageName());
-            Log.d("PillSelection", "Resource ID for " + pillNames[position] + ": " + resId);
+            // pillNames 배열의 이름을 기반으로 drawable 리소스를 불러옴
+            String pillImageName = pillNames[position]; // 예: pillNames[position]이 "pill1"이면 "pill1"
+            Log.d("PillSelection", "Loading image: " + pillImageName); // 디버깅 로그 추가
 
+            // getIdentifier()로 drawable 리소스를 불러옴
+            int resId = getResources().getIdentifier(pillImageName, "drawable", getPackageName());
             if (resId != 0) {
+                // 이미지가 정상적으로 로드되면
                 imageView.setImageResource(resId);
             } else {
-                Log.e("PillSelection", "Invalid resource ID for " + pillNames[position]);
+                // 기본 이미지를 설정
+                Log.e("PillSelection", "Image not found for: " + pillImageName);
                 imageView.setImageResource(R.drawable.pill); // 기본 이미지
             }
 
             return imageView;
         }
-
     }
 }

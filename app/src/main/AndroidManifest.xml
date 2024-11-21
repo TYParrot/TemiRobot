@@ -5,8 +5,8 @@
     <!-- 정확한 알람 설정 -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" /> <!-- 포그라운드 서비스 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 알람화면 -->
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
 
     <!-- 화면 호환 모드 허용 -->
     <supports-screens android:largeScreens="true" android:anyDensity="true"/>
@@ -18,6 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dementia">
+
+        <!--temi sdk-->
+        <meta-data
+            android:name="com.robotemi.sdk.metadata.SKILL"
+            android:value="@string/app_name" />
+
         <activity android:name=".UI.PillSelection"/>
         <activity android:name=".UI.AlarmNotificationUI" />
         <activity android:name=".UI.AlarmSetUI" />
@@ -42,8 +48,9 @@
         <service
             android:name=".Function.AlarmService"
             android:enabled="true"
-            android:exported="false" /> <!-- 이미지 메인 페이지 등록 -->
+            android:exported="true" /> <!-- 이미지 메인 페이지 등록 -->
         <activity android:name=".UI.ImageListUI" />
+
     </application>
 
 </manifest>
