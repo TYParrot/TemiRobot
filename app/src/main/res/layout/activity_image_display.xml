@@ -3,12 +3,16 @@
     android:layout_height="match_parent"
     android:background="#000">
 
+    <!-- 간격 추가 --> />
+
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="506dp"
-        android:layout_height="352dp"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:scaleType="centerCrop" />
-
 
     <Button
         android:id="@+id/imgBackBtn"
