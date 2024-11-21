@@ -1,9 +1,6 @@
 package com.example.dementia;
 
-import android.Manifest;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.app.AlarmManager;
 import android.content.pm.PackageManager;
@@ -14,12 +11,8 @@ import android.view.View;
 import android.widget.*;
 import android.content.*;
 
-import com.example.dementia.Manager.ImageUserManager;
-import com.example.dementia.UI.ImageListUI;
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.UI.AlarmListUI;
-import com.example.dementia.Manager.ImageUserManager;
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -86,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent images = new Intent(MainActivity.this, ImageListUI.class);
+                Intent images = new Intent(MainActivity.this, com.example.dementia.UI.ImageDisplayUI.class);
                 startActivity(images);
             }
         });
