@@ -2,6 +2,7 @@ package com.example.dementia.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -72,17 +73,26 @@ public class PillSelection extends AppCompatActivity {
             if (convertView == null) {
                 imageView = new ImageView(PillSelection.this);
                 imageView.setLayoutParams(new GridView.LayoutParams(
-                        GridView.LayoutParams.MATCH_PARENT,  // 아이템 너비를 맞춤
-                        400));  // 아이템 높이를 더 크게 설정
-                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);  // 이미지 가운데 정렬
+                        GridView.LayoutParams.MATCH_PARENT,  // 너비
+                        400));  // 높이
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             } else {
                 imageView = (ImageView) convertView;
             }
 
-            // String 배열에 담긴 이미지 이름에 맞는 리소스 설정
+            // 리소스 ID 가져오기
             int resId = getResources().getIdentifier(pillNames[position], "drawable", getPackageName());
-            imageView.setImageResource(resId);
+            Log.d("PillSelection", "Resource ID for " + pillNames[position] + ": " + resId);
+
+            if (resId != 0) {
+                imageView.setImageResource(resId);
+            } else {
+                Log.e("PillSelection", "Invalid resource ID for " + pillNames[position]);
+                imageView.setImageResource(R.drawable.pill); // 기본 이미지
+            }
+
             return imageView;
         }
+
     }
 }
