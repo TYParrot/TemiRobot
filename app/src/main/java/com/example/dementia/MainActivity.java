@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.dementia.UI.StoryHobbyUI;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.permission.Permission;
 import com.robotemi.sdk.permission.OnRequestPermissionResultListener;
@@ -114,6 +115,16 @@ public class MainActivity extends AppCompatActivity {
         //         startActivity(sleep);
         //     }
         // });
+
+        //이야기 취미 버튼
+        Button storyHobbyBtn = findViewById(R.id.storyHobbyBtn);
+        storyHobbyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent storyHobby = new Intent(MainActivity.this, StoryHobbyUI.class);
+                startActivity(storyHobby);
+            }
+        });
     }
 }
 
