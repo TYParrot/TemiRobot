@@ -148,31 +148,37 @@ public class StoryHobbyUI extends AppCompatActivity {
         funBtn.setOnClickListener(view -> {
             genreType = "fun";
             storyLay.setVisibility(View.GONE);
+            makeSentence();
         });
 
         sadBtn.setOnClickListener(view -> {
             genreType = "sad";
             storyLay.setVisibility(View.GONE);
+            makeSentence();
         });
 
         scienceBtn.setOnClickListener(view -> {
             genreType = "science";
             storyLay.setVisibility(View.GONE);
+            makeSentence();
         });
 
         shortTime.setOnClickListener(view -> {
             timeType = "shortTime";
             hobbyLay.setVisibility(View.GONE);
+            makeSentence();
         });
 
         longTime.setOnClickListener(view -> {
             timeType = "longTime";
             hobbyLay.setVisibility(View.GONE);
+            makeSentence();
         });
 
         longDay.setOnClickListener(view -> {
             timeType = "longDay";
             hobbyLay.setVisibility(View.GONE);
+            makeSentence();
         });
 
         // 뒤로가기 버튼
