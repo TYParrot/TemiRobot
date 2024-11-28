@@ -24,10 +24,61 @@ import com.example.dementia.UI.AlarmListUI;
 import java.util.Arrays;
 import java.util.List;
 
+/* 추가해서 확인해야하는 것.
+* implements
+    Robot.NlpListener,
+    OnRobotReadyListener,
+    Robot.ConversationViewAttachesListener,
+    Robot.WakeupWordListener,
+    Robot.ActivityStreamPublishListener,
+    Robot.TtsListener,
+    OnBeWithMeStatusChangedListener,
+    OnGoToLocationStatusChangedListener,
+    OnLocationsUpdatedListener
+        * */
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_PERMISSION = 1;
+
+    /*
+    //temi 확인1
+    protected void onStart() {
+        super.onStart();
+        Robot.getInstance().addOnRobotReadyListener(this);
+        Robot.getInstance().addNlpListener(this);
+        Robot.getInstance().addOnBeWithMeStatusChangedListener(this);
+        Robot.getInstance().addOnGoToLocationStatusChangedListener(this);
+        Robot.getInstance().addConversationViewAttachesListenerListener(this);
+        Robot.getInstance().addWakeupWordListener(this);
+        Robot.getInstance().addTtsListener(this);
+        Robot.getInstance().addOnLocationsUpdatedListener(this);
+    }
+
+    protected void onStop() {
+        super.onStop();
+        Robot.getInstance().removeOnRobotReadyListener(this);
+        Robot.getInstance().removeNlpListener(this);
+        Robot.getInstance().removeOnBeWithMeStatusChangedListener(this);
+        Robot.getInstance().removeOnGoToLocationStatusChangedListener(this);
+        Robot.getInstance().removeConversationViewAttachesListenerListener(this);
+        Robot.getInstance().removeWakeupWordListener(this);
+        Robot.getInstance().removeTtsListener(this);
+        Robot.getInstance().removeOnLocationsUpdateListener(this);
+    }
+
+    @Override
+    public void onRobotReady(boolean isReady) {
+        if (isReady) {
+            try {
+                final ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
+                robot.onStart(activityInfo);
+            } catch (PackageManager.NameNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         // 매니저 초기화
         MainManager.getMain().initAlarmManager(this);
         MainManager.getMain().getAlarm().restoreAlarms();
-
         // 버튼들의 화면 전환 메소드
         convertPage();
     }

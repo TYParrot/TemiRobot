@@ -6,17 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".UI.PillSelection">
 
-        <GridView
-            android:id="@+id/pillGridView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="2"
-            android:horizontalSpacing="10dp"
-            android:verticalSpacing="10dp"
-            android:padding="10dp"
-            android:columnWidth="100dp"
-            android:gravity = "center" />
+        <!-- First ImageView for the first pill -->
+        <ImageView
+            android:id="@+id/pill1Img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:src="@drawable/pill1" />
 
+        <!-- Second ImageView for the second pill -->
+        <ImageView
+            android:id="@+id/pill2Img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pill1Img"
+            app:layout_constraintVertical_bias="0.0"
+            android:src="@drawable/pill2" />
 
+        <!-- Third ImageView for the third pill -->
+        <ImageView
+            android:id="@+id/pill3Img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/pill1Img"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:src="@drawable/pill3" />
+
+        <!-- Fourth ImageView for the fourth pill -->
+        <ImageView
+            android:id="@+id/pill4Img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pill3Img"
+            app:layout_constraintVertical_bias="0.0"
+            android:src="@drawable/pill4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
