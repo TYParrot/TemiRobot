@@ -25,12 +25,14 @@ public class ImageDisplayUI extends AppCompatActivity {
     private int[][] images = {
             {R.drawable.daughter1, R.drawable.daughter2, R.drawable.daughter3, R.drawable.daughter4, R.drawable.daughter5},
             {R.drawable.son1, R.drawable.son2, R.drawable.son3, R.drawable.son4, R.drawable.son5},
-            {R.drawable.family1, R.drawable.family2, R.drawable.family3, R.drawable.family4, R.drawable.family5}
+            {R.drawable.family1, R.drawable.family2, R.drawable.family3, R.drawable.family4, R.drawable.family5},
+            {R.drawable.grandchild1, R.drawable.grandchild2, R.drawable.grandchild3, R.drawable.grandchild4, R.drawable.grandchild5}
     };
 
     private int[] sounds = {
             R.raw.daughter_sound, // Replace with actual sound files
             R.raw.son_sound,
+            R.raw.grandchild_sound,
             R.raw.family_sound
     };
 

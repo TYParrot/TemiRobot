@@ -11,84 +11,77 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dementia.Function.AlarmListAdapter;
 import com.example.dementia.Function.AlarmListDataSet;
-import com.example.dementia.MainActivity;
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.R;
 import com.example.dementia.Manager.AlarmDataManager;
 
 import java.util.ArrayList;
 
-
-//생성된 알람 목록 확인
-//알람 기능 확장에 따라서 받아오는 값이 있어야 함.
 public class AlarmListUI extends AppCompatActivity {
 
     private AlarmDataManager alarmDataManager;
     private ArrayList<AlarmListDataSet> alarmListData;
-    //Adapter 설정
     private AlarmListAdapter adapter;
     private RecyclerView recyclerView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        alarmDataManager = MainManager.getMain().getAlarm().getAlarmDataManager();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarmlist);
 
-        //변수 초기화
-        recyclerView = findViewById(R.id.alarmRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        //알람 목록 호출
+        initialize();
         refreshAlarmList();
-
-        //페이지 전환 이벤트(사실상 버튼 초기화)
-        convertPage();
-
+        setupPageTransitions();
     }
 
-    //알람 목록 페이지 최상단일 시, 목록을 갱신해줘야 함.
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         refreshAlarmList();
     }
 
-    //알람 목록 갱신 및 데이터 불러오기.
-    private void refreshAlarmList(){
-        alarmDataManager.loadFromFile(this);
-        alarmListData = alarmDataManager.getAllAlarms();
-        adapter = new AlarmListAdapter(alarmListData);
-
-        if(alarmListData == null){
-            alarmListData = new ArrayList<>();
-        }
-        recyclerView.setAdapter(adapter);
+    /**
+     * 초기화: 데이터 매니저, RecyclerView 설정
+     */
+    private void initialize() {
+        alarmDataManager = MainManager.getMain().getAlarm().getAlarmDataManager();
+        recyclerView = findViewById(R.id.alarmRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    /**
+     * 알람 목록 갱신 및 데이터 불러오기
+     */
+    private void refreshAlarmList() {
+        alarmDataManager.loadFromFile(this);
+        alarmListData = alarmDataManager.getAllAlarms();
 
+        if (alarmListData == null) {
+            alarmListData = new ArrayList<>();
+        }
 
-    //페이지 전환
-    private void convertPage(){
-        Button alarmAdd = findViewById(R.id.alarmAddBtn);
-        alarmAdd.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent alarmSet = new Intent(AlarmListUI.this, AlarmSetUI.class);
-                startActivity(alarmSet);
-            }
+        if (adapter == null) {
+            adapter = new AlarmListAdapter(alarmListData);
+            recyclerView.setAdapter(adapter);
+        } else {
+            adapter.updateData(alarmListData);
+        }
+    }
+
+    /**
+     * 페이지 전환 버튼 설정
+     */
+    private void setupPageTransitions() {
+        Button alarmAddButton = findViewById(R.id.alarmAddBtn);
+        alarmAddButton.setOnClickListener(view -> {
+            Intent alarmSetIntent = new Intent(AlarmListUI.this, AlarmSetUI.class);
+            startActivity(alarmSetIntent);
         });
 
-        Button listToMain = findViewById(R.id.alarmListBackBtn);
-        listToMain.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                finish();
-                AlarmListUI.super.onBackPressed();
-            }
+        Button backToMainButton = findViewById(R.id.alarmListBackBtn);
+        backToMainButton.setOnClickListener(view -> {
+            finish();
+            super.onBackPressed();
         });
     }
 }
