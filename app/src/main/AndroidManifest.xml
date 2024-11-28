@@ -5,7 +5,6 @@
     <!-- 정확한 알람 설정 -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" /> <!-- 포그라운드 서비스 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 알람화면 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 
     <!-- 화면 호환 모드 허용 -->
@@ -24,7 +23,6 @@
             android:name="com.robotemi.sdk.metadata.SKILL"
             android:value="@string/app_name" />
 
-        <activity android:name=".UI.PillSelection"/>
         <activity android:name=".UI.AlarmNotificationUI" />
         <activity android:name=".UI.AlarmSetUI" />
         <activity android:name=".UI.AlarmListUI" />

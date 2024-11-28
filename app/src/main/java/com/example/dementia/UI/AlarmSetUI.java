@@ -3,6 +3,7 @@ package com.example.dementia.UI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +29,8 @@ public class AlarmSetUI extends AppCompatActivity {
     private ImageView pillImg;
     private Button[] dayBtns;
     private boolean[] dayBtnsClicked; // 요일 버튼 클릭 상태 저장
-    private static final int REQUEST_CODE_PICK_PILL = 1; // PillSelection 요청 코드
+
+    private int[] currentImageIndex = {0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,10 +125,32 @@ public class AlarmSetUI extends AppCompatActivity {
 
     // 이벤트 설정
     private void setupEventListeners() {
-        // 알약 이미지 선택
+        //알약 이미지 선택
         pillImg.setOnClickListener(view -> {
-            Intent pillIntent = new Intent(AlarmSetUI.this, PillSelection.class);
-            startActivityForResult(pillIntent, REQUEST_CODE_PICK_PILL);
+            // 이미지를 순환하기 위해 배열로 관리
+            int[] pillImages = {
+                    R.drawable.pill,
+                    R.drawable.pill1,
+                    R.drawable.pill3,
+                    R.drawable.pill2,
+                    R.drawable.pill4
+            };
+
+            // 클릭할 때마다 다음 이미지로 변경
+            currentImageIndex[0] = (currentImageIndex[0] + 1) % pillImages.length;
+            int currentImageResource = pillImages[currentImageIndex[0]];
+
+            try {
+                // 이미지 변경
+                pillImg.setImageResource(currentImageResource);
+
+                // 이미지 리소스 이름 추출
+                imgUri = getResources().getResourceEntryName(currentImageResource);
+
+            } catch (Resources.NotFoundException e) {
+                // 예외가 발생할 경우 처리
+                e.printStackTrace();
+            }
         });
 
         // 요일 버튼 클릭 이벤트
@@ -140,20 +164,6 @@ public class AlarmSetUI extends AppCompatActivity {
                 dayBtns[index].setBackgroundColor(getResources().getColor(
                         dayBtnsClicked[index] ? R.color.alarmBtnClickedColor : R.color.white));
             });
-        }
-    }
-
-    // PillSelection 결과 처리
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICK_PILL && resultCode == RESULT_OK) {
-            // 선택된 알약 이름
-            String selectedPill = data.getStringExtra("selectedPill");
-
-            // 알약 이미지를 설정하고 URI 저장
-            pillImg.setImageResource(getResources().getIdentifier(selectedPill, "drawable", getPackageName()));
-            imgUri = selectedPill;
         }
     }
 }
