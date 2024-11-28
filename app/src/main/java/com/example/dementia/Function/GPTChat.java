@@ -5,14 +5,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GPTChat {
     private static final String BASE_URL = "https://api.openai.com/";
+    private static GPTChatInterface gptApi;
 
-    public static ChatGPTApi getChatGPTApi(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        return retrofit.create(ChatGPTApi.class);
+    public static GPTChatInterface getChatGPTApi(){
+        if(gptApi == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            gptApi = retrofit.create(GPTChatInterface.class);
+        }
+        return gptApi;
     }
+
 
 }
 
