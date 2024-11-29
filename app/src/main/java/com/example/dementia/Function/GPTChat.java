@@ -1,5 +1,7 @@
 package com.example.dementia.Function;
 
+import com.example.dementia.BuildConfig;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -20,8 +22,9 @@ public class GPTChat {
                         @Override
                         public Response intercept(Chain chain) throws IOException {
                             Request newRequest = chain.request().newBuilder()
-                                    .addHeader("Authorization", "Bearer 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")  // API 키를 여기에 추가
+                                    .addHeader("Authorization", "Bearer "+ BuildConfig.GPT_API_KEY)
                                     .build();
+                            System.out.println("API_REQUEST " + "Request Headers: " + newRequest.headers());
                             return chain.proceed(newRequest);
                         }
                     })

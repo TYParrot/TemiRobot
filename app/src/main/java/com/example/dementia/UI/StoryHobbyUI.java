@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import com.example.dementia.Function.ChatGPTRequest;
 import com.example.dementia.Function.ChatGPTResponse;
@@ -33,6 +34,7 @@ public class StoryHobbyUI extends AppCompatActivity {
     private LinearLayout storyLay;
     private LinearLayout hobbyLay;
     private TextView resultTextView;
+    private ScrollView resultScrollView;
 
     private String layType;
     private String genreType;
@@ -58,30 +60,43 @@ public class StoryHobbyUI extends AppCompatActivity {
         gptChatInterface = GPTChat.getChatGPTApi();
     }
 
-    private void sendMessageToGpt(String messageContent){
+    private void sendMessageToGpt(String messageContent) {
+        // 사용자 메시지 준비
         ChatGPTRequest.Messages msg = new ChatGPTRequest.Messages("user", messageContent);
-        ChatGPTRequest request = new ChatGPTRequest("gpt-3.5-turbo", Collections.singletonList(msg));
+        // ChatGPTRequest 생성
+        ChatGPTRequest request = new ChatGPTRequest("gpt-4o-mini", Collections.singletonList(msg));
 
+        // API 호출
         gptChatInterface.getChatResponse(request).enqueue(new Callback<ChatGPTResponse>() {
             @Override
             public void onResponse(Call<ChatGPTResponse> call, Response<ChatGPTResponse> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getChoices() != null) {
-                    String getResponse = response.body().getChoices().get(0).getMessage().getContent();
-                    resultTextView.setText(getResponse);
-                    resultTextView.setVisibility(View.VISIBLE);
-                    System.out.println(getResponse);
+                if (response.isSuccessful() && response.body() != null) {
+                    // 응답이 성공적인 경우, choices 필드가 null이 아니고 내용이 있는지 확인
+                    if (response.body().getChoices() != null && !response.body().getChoices().isEmpty()) {
+                        String getResponse = response.body().getChoices().get(0).getMessage().getContent();
+                        // 응답 내용 UI에 표시
+                        resultTextView.setText(getResponse);
+                        resultScrollView.setVisibility(View.VISIBLE);
+                        System.out.println("Response: " + getResponse);
+                    } else {
+                        // choices가 null이거나 비어있는 경우 처리
+                        System.out.println("No choices or null response body.");
+                    }
                 } else {
-                    System.out.println("No choices or null response body.");
+                    // API 호출이 성공적이지 않은 경우 상태 코드와 메시지 로그 출력
+                    System.out.println("API Error: " + response.code() + " - " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<ChatGPTResponse> call, Throwable t) {
+                // 실패한 경우 에러 로그 출력
                 t.printStackTrace();
-                System.out.println("API Call Failure: " + t.getMessage()); // 에러 메시지 출력
+                System.out.println("API Call Failure: " + t.getMessage());
             }
         });
     }
+
 
     private void makeSentence() {
         String sentence = "";
@@ -126,6 +141,7 @@ public class StoryHobbyUI extends AppCompatActivity {
         hobbyLay = findViewById(R.id.hobbyLayout);
 
         resultTextView = findViewById(R.id.resultTextView);
+        resultScrollView = findViewById(R.id.resultScrollView);
     }
 
     private void clickBtn(){
