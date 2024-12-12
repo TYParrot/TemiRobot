@@ -27,6 +27,7 @@
         <activity android:name=".UI.AlarmSetUI" />
         <activity android:name=".UI.AlarmListUI" />
         <activity android:name=".UI.ImageDisplayUI" />
+        <activity android:name=".UI.SleepUI"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

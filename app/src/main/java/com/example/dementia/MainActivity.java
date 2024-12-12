@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.dementia.UI.SleepUI;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.permission.Permission;
 import com.robotemi.sdk.permission.OnRequestPermissionResultListener;
@@ -155,15 +156,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 수면 버튼 (수면 페이지를 추가할 경우)
-        // Button sleepBtn = findViewById(R.id.sleepBtn);
-        // sleepBtn.setOnClickListener(new View.OnClickListener() {
-        //     @Override
-        //     public void onClick(View view) {
-        //         Intent sleep = new Intent(MainActivity.this, SleepPage.class);
-        //         startActivity(sleep);
-        //     }
-        // });
+         //수면 버튼 (수면 페이지를 추가할 경우)
+         Button sleepBtn = findViewById(R.id.sleepBtn);
+         sleepBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Intent sleep = new Intent(MainActivity.this, SleepUI.class);
+                 startActivity(sleep);
+             }
+         });
     }
 }
 

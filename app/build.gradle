@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -37,10 +38,19 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    //json포맷
+// JSON 포맷
     implementation 'com.google.code.gson:gson:2.8.6'
 
-    //TEMI와 연결했을 때 아래의 코드 주석 처리를 해제하세요.
+// TEMI와 연결했을 때 아래의 코드 주석 처리를 해제하세요.
     implementation 'com.robotemi:sdk:1.131.4'
+
+// Firebase 관련 의존성
+    implementation platform('com.google.firebase:firebase-bom:32.8.1')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-database:20.3.1'
+
+// MPAndroidChart 라이브러리
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 
 }

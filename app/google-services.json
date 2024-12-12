@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "901537928510",
+    "firebase_url": "https://temicommunication-e6e3c-default-rtdb.firebaseio.com",
+    "project_id": "temicommunication-e6e3c",
+    "storage_bucket": "temicommunication-e6e3c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901537928510:android:1dc08273dd78daaa2c086f",
+        "android_client_info": {
+          "package_name": "com.example.dementia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB36WBy16yEoevaPPF1hBCZAe1RgTLS7jA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
