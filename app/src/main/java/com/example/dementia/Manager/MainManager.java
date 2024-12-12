@@ -2,6 +2,9 @@ package com.example.dementia.Manager;
 
 import android.content.Context;
 
+import com.example.dementia.MainActivity;
+import com.robotemi.sdk.Robot;
+
 //MainActivity에서 생성, 다른 매니저들을 관리함.
 public class MainManager {
 
@@ -30,4 +33,5 @@ public class MainManager {
     public AlarmManager getAlarm(){
         return alarm;
     }
+
 }
