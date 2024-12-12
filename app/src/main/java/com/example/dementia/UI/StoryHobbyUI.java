@@ -11,7 +11,11 @@ import com.example.dementia.Function.ChatGPTRequest;
 import com.example.dementia.Function.ChatGPTResponse;
 import com.example.dementia.Function.GPTChat;
 import com.example.dementia.Function.GPTChatInterface;
+import com.example.dementia.MainActivity;
 import com.example.dementia.R;
+import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.TtsRequest;
+
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -42,6 +46,8 @@ public class StoryHobbyUI extends AppCompatActivity {
 
     private GPTChatInterface gptChatInterface;
 
+    private Robot robot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +60,8 @@ public class StoryHobbyUI extends AppCompatActivity {
         // 초기 상태 설정
         storyLay.setVisibility(View.GONE);
         hobbyLay.setVisibility(View.GONE);
+
+        robot = Robot.getInstance();
     }
 
     private void initApiService() {
@@ -78,6 +86,10 @@ public class StoryHobbyUI extends AppCompatActivity {
                         resultTextView.setText(getResponse);
                         resultScrollView.setVisibility(View.VISIBLE);
                         System.out.println("Response: " + getResponse);
+
+                        //Temi가 읽어줌.
+                        robot.speak(TtsRequest.create(getResponse, false));
+
                     } else {
                         // choices가 null이거나 비어있는 경우 처리
                         System.out.println("No choices or null response body.");
@@ -198,6 +210,9 @@ public class StoryHobbyUI extends AppCompatActivity {
         });
 
         // 뒤로가기 버튼
-        backBtn.setOnClickListener(view -> finish());
+        backBtn.setOnClickListener(view -> {
+            robot.cancelAllTtsRequests();
+            finish();
+        });
     }
 }
