@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 //선언 및 key 값 가져오기
@@ -56,4 +57,14 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     // serialize용
     implementation 'com.google.code.gson:gson:2.8.8'
+
+// Firebase 관련 의존성
+    implementation platform('com.google.firebase:firebase-bom:32.8.1')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-database:20.3.1'
+
+// MPAndroidChart 라이브러리
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+
 }

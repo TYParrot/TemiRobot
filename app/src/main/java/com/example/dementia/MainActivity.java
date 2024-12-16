@@ -12,17 +12,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.dementia.UI.SleepUI;
+import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.permission.Permission;
+import com.robotemi.sdk.permission.OnRequestPermissionResultListener;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dementia.Manager.MainManager;
 import com.example.dementia.UI.AlarmListUI;
 import com.example.dementia.UI.StoryHobbyUI;
 import com.robotemi.sdk.NlpResult;
-import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.activitystream.ActivityStreamPublishMessage;
 import com.robotemi.sdk.listeners.*;
-import com.robotemi.sdk.permission.Permission;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements
         setupButton(R.id.imageBtn, com.example.dementia.UI.ImageDisplayUI.class);
         setupButton(R.id.alarmBtn, AlarmListUI.class);
         setupButton(R.id.storyHobbyBtn, StoryHobbyUI.class);
+        setupButton(R.id.sleepBtn, SleepUI.class);
     }
 
     private void setupButton(int buttonId, Class<?> targetActivity) {
