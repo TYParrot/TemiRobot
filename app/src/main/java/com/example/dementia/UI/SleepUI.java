@@ -21,6 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.TtsRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +35,8 @@ public class SleepUI extends AppCompatActivity {
 
     private int[] pressCounts = new int[6]; // 센서별 누름 횟수
     private String[] states = new String[6]; // 센서별 상태 (LIGHT/DEEP)
+
+    private Robot robot;
 
     // FirebaseDatabase 객체 생성
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -53,6 +58,8 @@ public class SleepUI extends AppCompatActivity {
         setupSensorListeners();
         setupLineChart();
         setupButtonListeners();
+
+        robot = Robot.getInstance();
     }
 
     // View 초기화 메서드
@@ -174,6 +181,7 @@ public class SleepUI extends AppCompatActivity {
 
                 if (startTime == 0) {  // 처음 시작할 때만 초기화
                     startTime = System.currentTimeMillis();  // 시작 시간 기록
+                    robot.speak(TtsRequest.create("지금부터 수면 패턴 분석을 시작하겠습니다. 안녕히 주무세요!", false));
                 }
 
                 lastUpdateTime = System.currentTimeMillis();  // 현재 시간으로 데이터 수집 시작 시점 기록
@@ -187,6 +195,7 @@ public class SleepUI extends AppCompatActivity {
             if (isRunning) {
                 isRunning = false;
                 Toast.makeText(this, "동작 중지", Toast.LENGTH_SHORT).show();
+                robot.speak(TtsRequest.create("안녕히 주무셨나요? 불편하신 곳은 없나요?", false));
             } else {
                 Toast.makeText(this, "이미 중지 상태입니다.", Toast.LENGTH_SHORT).show();
             }
@@ -195,6 +204,7 @@ public class SleepUI extends AppCompatActivity {
         cancelSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                robot.cancelAllTtsRequests();
                 finish();
                 SleepUI.super.onBackPressed();
             }
@@ -206,7 +216,7 @@ public class SleepUI extends AppCompatActivity {
         new Thread(() -> {
             while (isRunning) {
                 try {
-                    Thread.sleep(30000);  // 30초마다 데이터 업데이트
+                    Thread.sleep(5000);  // 5초마다 데이터 업데이트
                     runOnUiThread(() -> {
                         updateGraph();  // 그래프 업데이트
                     });
@@ -246,7 +256,12 @@ public class SleepUI extends AppCompatActivity {
         // 하나의 데이터 세트 생성: 누적된 뒤척임 횟수
         LineDataSet dataSet = new LineDataSet(entries, "뒤척임 횟수");
         dataSet.setColor(Color.BLUE);  // 라인의 색은 파란색으로 설정
-        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setLineWidth(2.5f);  // 라인의 두께 설정
+        dataSet.setValueTextColor(Color.DKGRAY); // 값 텍스트 색상 설정
+        dataSet.setValueTextSize(10f); // 값 텍스트 크기 설정
+        dataSet.setCircleRadius(4f);  // 데이터 포인트 원 크기 설정
+        dataSet.setCircleColor(Color.RED);  // 데이터 포인트 색상 설정
+        dataSet.setDrawCircleHole(false);  // 원 내부 채우기
         dataSet.setDrawValues(true);  // 값 텍스트 표시 활성화
 
         // 그래프에 값 텍스트를 상태로 변환하여 표시
@@ -267,10 +282,25 @@ public class SleepUI extends AppCompatActivity {
         // 그래프에 데이터 세트 적용
         LineData lineData = new LineData(dataSet);
         lineChart.setData(lineData);
-        lineChart.invalidate(); // 그래프 새로고침
 
-        // X축 레이블 조정 (실시간으로 동적으로 X축 레이블을 표시)
+        // 그래프 스타일 조정
+        lineChart.getDescription().setEnabled(false); // 설명 텍스트 비활성화
+        lineChart.setTouchEnabled(true); // 그래프 터치 가능
+        lineChart.setDragEnabled(true); // 그래프 드래그 가능
+        lineChart.setScaleEnabled(true); // 그래프 확대 가능
+        lineChart.setPinchZoom(true); // 핀치 줌 가능
+
+        // X축 레이블 조정
         XAxis xAxis = lineChart.getXAxis();
-        xAxis.setLabelCount(numOfEntries, true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // X축 레이블을 아래로 설정
+        xAxis.setLabelCount(numOfEntries, true); // 레이블 개수 설정
+        xAxis.setDrawGridLines(false); // X축 격자선 비활성화
+
+        // Y축 스타일 조정
+        lineChart.getAxisLeft().setDrawGridLines(false); // 왼쪽 Y축 격자선 비활성화
+        lineChart.getAxisRight().setEnabled(false); // 오른쪽 Y축 비활성화
+
+        // 그래프 새로고침
+        lineChart.invalidate();
     }
 }

@@ -120,18 +120,25 @@ public class StoryHobbyUI extends AppCompatActivity {
 
         if (layType.equals("story")) {
             if (genreType != null) {
-                sentence = currentDate + " " + currentTime + "에 어울리는 " + genreType + " 이야기를 들려주세요.";
+                sentence = "다음의 규칙을 지켜주세요. 1. 날짜, 시간 및 마크 다운과 관련된 내용은 빼주세요. " +
+                        "2. 사회복지사처럼 친근한 말투로 자연스럽게 말해주세요.. 3. 최대 2개만 추천해주세요." +currentDate + " " + currentTime + "에 어울리는 " + genreType + " 이야기를 들려주세요.";
             } else {
-                sentence = "듣고 싶은 이야기의 종류를 선택해주세요.";
+                sentence = "다음의 규칙을 지켜주세요. 1. 날짜, 시간 및 마크 다운과 관련된 내용은 빼주세요. " +
+                        "2. 사회복지사처럼 친근한 말투로 자연스럽게 말해주세요. 3. 최대 2개만 추천해주세요." +
+                        "즐거운 이야기를 말해주세요.";
             }
         } else if (layType.equals("hobby")) {
             if (timeType != null) {
-                sentence = currentDate + " " + currentTime + "에 어울리는 " + timeType + " 동안 할 수 있는 취미를 추천해주세요.";
+                sentence = "다음의 규칙을 지켜주세요. 1. 날짜, 시간 및 마크 다운과 관련된 내용은 빼주세요. " +
+                        "2. 사회복지사처럼 친근한 말투로 자연스럽게 말해주세요. 3. 최대 2개만 추천해주세요" + currentDate + " " + currentTime + "에 어울리는 " + timeType + " 동안 할 수 있는 취미를 추천해주세요.";
             } else {
-                sentence = "취미 활동의 시간을 선택해주세요.";
+                sentence = "다음의 규칙을 지켜주세요. 1. 날짜, 시간 및 마크 다운과 관련된 내용은 빼주세요." +
+                        "2. 사회복지사처럼 친근한 말투로 자연스럽게 말해주세요. 3. 최대 2개만 추천해주세요" +
+                        "아무 시간대의 취미를 추천해주세요.";
             }
         } else {
-            sentence = "이야기 또는 취미 중 하나를 선택해주세요.";
+            sentence = "다음의 규칙을 지켜주세요. 1. 날짜, 시간 및 마크 다운과 관련된 내용은 빼주세요. " +
+                    "2. 사회복지사처럼 친근한 말투로 자연스럽게 말해주세요.. 3. 최대 2개만 추천해주세요.";
         }
 
         System.out.println(sentence);
